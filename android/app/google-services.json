@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "145845990340",
+    "project_id": "tech-news-e9c81",
+    "storage_bucket": "tech-news-e9c81.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145845990340:android:7c3c2f79682280db80aa91",
+        "android_client_info": {
+          "package_name": "stephen.tech.news"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "145845990340-2hhua1rm7lltt62k1j8maaqcmm16f0t4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUuLL2cMSfo1UoPYSMuCUQRYtuwLkBfc4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "145845990340-2hhua1rm7lltt62k1j8maaqcmm16f0t4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
