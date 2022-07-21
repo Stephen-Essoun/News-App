@@ -1,6 +1,6 @@
-import 'package:chedda/screen/news_in_detail.dart';
+import 'package:chedda/view/news_in_detail.dart';
 import 'package:chedda/controller/network.dart';
-import 'package:chedda/screen/sign_in.dart';
+import 'package:chedda/view/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -206,4 +206,3 @@ class _HomeState extends State<Home> {
   }
 }
 
-// class GrideSize {}
