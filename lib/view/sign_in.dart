@@ -5,7 +5,9 @@ import 'package:chedda/reusable/textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer'show log;
+import 'dart:developer' show log;
+
+final _auth = PhoneAuth();
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -14,17 +16,18 @@ class SignIn extends StatefulWidget {
   State<SignIn> createState() => _SignInState();
 }
 
-late  TextEditingController phoneController;
-late final TextEditingController otpController;
+late TextEditingController phoneController;
+late TextEditingController otpController;
 
 class _SignInState extends State<SignIn> {
-  final _auth = PhoneAuth();
+  final _formKey = GlobalKey<FormState>();
+
+  bool isPressed = false;
 
   @override
   void initState() {
     phoneController = TextEditingController();
     otpController = TextEditingController();
-    _auth.otpVisible = false;
     super.initState();
   }
 
@@ -34,11 +37,6 @@ class _SignInState extends State<SignIn> {
     otpController.dispose();
     super.dispose();
   }
-
-  
-  final _formKey = GlobalKey<FormState>();
-
-  bool isPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,12 +50,12 @@ class _SignInState extends State<SignIn> {
       child: FutureBuilder<Object>(
           future: Firebase.initializeApp(),
           builder: (context, snapshot) {
-            return Scaffold(
-              backgroundColor: Colors.transparent,
-              body: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Form(
-                  key: _formKey,
+            return Form(
+              key: _formKey,
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+                body: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -65,8 +63,8 @@ class _SignInState extends State<SignIn> {
                         hintText: 'Phone',
                         controller: phoneController,
                         validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Enter a phone number';
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Please enter your phone number';
                           } else if (value.length < 10 || value.length > 14) {
                             return 'Invalid input';
                           }
@@ -76,40 +74,24 @@ class _SignInState extends State<SignIn> {
                       SizedBox(
                         height: 10,
                       ),
-                      Visibility(
-                          visible: _auth.otpVisible,
-                          child: customTextField(
-                              hintText: 'Enter code recieved',
-                              controller: otpController)),
-                      SizedBox(
-                        height: 10,
-                      ),
                       ElevatedButton(
                         onPressed: () {
                           log('pressed');
                           if (_formKey.currentState!.validate()) {
-                          try { if (_auth.otpVisible) {
-                              _auth.verifyOtp();
-                              setState(() {
-                                Navigator.pushReplacement(context,
-                                    MaterialPageRoute(builder: (_) => Home()));
+                            try {
+                              // _auth.verifyFone();
+                              Future.delayed(Duration(seconds: 1), () {
+                                return otpCodeTextFied(context);
                               });
-                            } else {
-                              
-                              _auth.verifyFone();
-                              
-                              setState(() {
-                                isPressed?CircularProgressIndicator():null;
-                              
-                              });
-                            }} on FirebaseAuthException catch (e){
+                            } on FirebaseAuthException catch (e) {
                               switch (e) {
-                                
                               }
                             }
                           }
                         },
-                        child: Text(_auth.otpVisible ? 'Verify' : 'Continue'),
+                        child: Text(
+                          'Verify',
+                        ),
                       )
                     ],
                   ),
@@ -117,6 +99,49 @@ class _SignInState extends State<SignIn> {
               ),
             );
           }),
+    );
+  }
+
+  ////////////////////////////////////////////////////
+  otpCodeTextFied(BuildContext context) {
+    return showDialog(
+      context: (context),
+      builder: (_) => AlertDialog(
+        title: customTextField(
+          controller: otpController,
+          hintText: 'Enter code recieved',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              _auth.verifyFone();
+            },
+            child: Text('Resend code'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Cancel'),
+          ),
+          Visibility(visible: _auth.otpvisible,
+            child: TextButton(
+              onPressed: ()  {
+                //  _auth.verifyOtp();
+                Future.delayed(Duration(seconds: 2), () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => Home(),
+                    ),
+                  );
+                });
+              },
+              child: Text('Continue'),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
