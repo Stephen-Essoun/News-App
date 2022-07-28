@@ -1,4 +1,3 @@
-import 'package:chedda/reusable/progres_indicator.dart';
 import 'package:chedda/service/auth/phone_auth.dart';
 import 'package:chedda/view/home.dart';
 import 'package:chedda/reusable/textfield.dart';
@@ -33,8 +32,8 @@ class _SignInState extends State<SignIn> {
 
   @override
   void dispose() {
-    phoneController.dispose();
-    otpController.dispose();
+    phoneController.clear();
+    otpController.clear();
     super.dispose();
   }
 
@@ -60,7 +59,7 @@ class _SignInState extends State<SignIn> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       customTextField(
-                        hintText: 'Phone',
+                        hintText: 'Phone(begin with country code)',
                         controller: phoneController,
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
@@ -79,7 +78,7 @@ class _SignInState extends State<SignIn> {
                           log('pressed');
                           if (_formKey.currentState!.validate()) {
                             try {
-                              // _auth.verifyFone();
+                              _auth.verifyFone();
                               Future.delayed(Duration(seconds: 1), () {
                                 return otpCodeTextFied(context);
                               });
@@ -112,11 +111,14 @@ class _SignInState extends State<SignIn> {
           hintText: 'Enter code recieved',
         ),
         actions: [
-          TextButton(
-            onPressed: () {
-              _auth.verifyFone();
-            },
-            child: Text('Resend code'),
+          Visibility(
+            visible: true,
+            child: TextButton(
+              onPressed: () {
+                _auth.verifyFone();
+              },
+              child: Text('Resend code'),
+            ),
           ),
           TextButton(
             onPressed: () {
@@ -124,21 +126,17 @@ class _SignInState extends State<SignIn> {
             },
             child: Text('Cancel'),
           ),
-          Visibility(visible: _auth.otpvisible,
-            child: TextButton(
-              onPressed: ()  {
-                //  _auth.verifyOtp();
-                Future.delayed(Duration(seconds: 2), () {
-                  Navigator.pushReplacement(
+          TextButton(
+            onPressed: () {
+              _auth.verifyOtp();
+              Future.delayed(Duration(seconds: 1), () {
+                Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(
-                      builder: (_) => Home(),
-                    ),
-                  );
-                });
-              },
-              child: Text('Continue'),
-            ),
+                    MaterialPageRoute(builder: (_) => Home()),
+                    (route) => false);
+              });
+            },
+            child: Text('Continue'),
           ),
         ],
       ),
