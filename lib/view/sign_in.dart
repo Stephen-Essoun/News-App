@@ -61,6 +61,7 @@ class _SignInState extends State<SignIn> {
                       customTextField(
                         hintText: 'Phone(begin with country code)',
                         controller: phoneController,
+                        keyboardType: TextInputType.phone,
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
                             return 'Please enter your phone number';
@@ -77,16 +78,17 @@ class _SignInState extends State<SignIn> {
                         onPressed: () {
                           log('pressed');
                           if (_formKey.currentState!.validate()) {
-                            try {
-                              _auth.verifyFone();
-                              Future.delayed(Duration(seconds: 1), () {
+                            _auth.verifyFone();
+                            Future.delayed(
+                              Duration(
+                                seconds: 10,
+                              ),
+                              () {
                                 return otpCodeTextFied(context);
-                              });
-                            } on FirebaseAuthException catch (e) {
-                              switch (e) {
-                              }
-                            }
+                              },
+                            );
                           }
+                          //  else if(){}
                         },
                         child: Text(
                           'Verify',
@@ -109,6 +111,7 @@ class _SignInState extends State<SignIn> {
         title: customTextField(
           controller: otpController,
           hintText: 'Enter code recieved',
+          keyboardType: TextInputType.number,
         ),
         actions: [
           Visibility(

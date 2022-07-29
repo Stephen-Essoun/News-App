@@ -18,10 +18,13 @@ TextFormField customTextField({
 }) {
   return TextFormField(
     controller: controller,
-    keyboardType: TextInputType.number,cursorHeight: 25,obscureText: obscureText,
+    keyboardType: keyboardType,
+    validator: validator,
+    cursorHeight: 25,
+    obscureText: obscureText,
     decoration: InputDecoration(
         filled: true,
-        hintText:hintText ,
+        hintText: hintText,
         fillColor: Color.fromARGB(255, 178, 91, 91),
         isDense: true,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),

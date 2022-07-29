@@ -141,14 +141,14 @@ class _HomeState extends State<Home> {
           // ],
         ),
         body: Padding(
-          padding: const EdgeInsets.only(top: 1, right: 10, left: 10),
+          padding: const EdgeInsets.only(top: 5, right: 10, left: 10),
           child: FutureBuilder<NewsApi>(
               future: newsData,
               builder: (context, AsyncSnapshot<NewsApi> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: spinkit);
                 }
-                if (snapshot.connectionState == ConnectionState.waiting) {
+                else if (snapshot.connectionState == ConnectionState.done) {
                   return Center(
                       child: Text("please check your internet connection"));
                 }
