@@ -1,10 +1,12 @@
 import 'package:chedda/service/auth/phone_auth.dart';
+import 'package:chedda/utilities/fuctions.dart';
 import 'package:chedda/view/home.dart';
-import 'package:chedda/reusable/textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' show log;
+
+import '../utilities/textfield.dart';
 
 final _auth = PhoneAuth();
 
@@ -64,9 +66,27 @@ class _SignInState extends State<SignIn> {
                         keyboardType: TextInputType.phone,
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Please enter your phone number';
+                            return dialogue(context,
+                                content: Text('Please enter your phone'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text('Okay'),
+                                  ),
+                                ]).toString();
                           } else if (value.length < 10 || value.length > 14) {
-                            return 'Invalid input';
+                            return dialogue(context,
+                                content: Text('Invalid input'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text('Okay'),
+                                  ),
+                                ]).toString();
                           }
                           return null;
                         },
@@ -84,11 +104,10 @@ class _SignInState extends State<SignIn> {
                                 seconds: 10,
                               ),
                               () {
-                                return otpCodeTextFied(context);
+                                return otpTextField(context);
                               },
                             );
                           }
-                          //  else if(){}
                         },
                         child: Text(
                           'Verify',
@@ -100,49 +119,6 @@ class _SignInState extends State<SignIn> {
               ),
             );
           }),
-    );
-  }
-
-  ////////////////////////////////////////////////////
-  otpCodeTextFied(BuildContext context) {
-    return showDialog(
-      context: (context),
-      builder: (_) => AlertDialog(
-        title: customTextField(
-          controller: otpController,
-          hintText: 'Enter code recieved',
-          keyboardType: TextInputType.number,
-        ),
-        actions: [
-          Visibility(
-            visible: true,
-            child: TextButton(
-              onPressed: () {
-                _auth.verifyFone();
-              },
-              child: Text('Resend code'),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              _auth.verifyOtp();
-              Future.delayed(Duration(seconds: 1), () {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (_) => Home()),
-                    (route) => false);
-              });
-            },
-            child: Text('Continue'),
-          ),
-        ],
-      ),
     );
   }
 }
