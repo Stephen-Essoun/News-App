@@ -61,7 +61,7 @@ class _SignInState extends State<SignIn> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       customTextField(
-                        hintText: 'Phone(begin with country code)',
+                        hintText: 'Phone(starts with country code)',
                         controller: phoneController,
                         keyboardType: TextInputType.phone,
                         validator: (value) {
