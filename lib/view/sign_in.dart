@@ -45,9 +45,7 @@ class _SignInState extends State<SignIn> {
       foregroundDecoration: BoxDecoration(
         color: Colors.black26,
       ),
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/images/bg.png'), fit: BoxFit.fill)),
+      
       child: FutureBuilder<Object>(
           future: Firebase.initializeApp(),
           builder: (context, snapshot) {
