@@ -9,9 +9,9 @@ PhoneAuth _auth = PhoneAuth();
 
 Future dialogue(
   BuildContext context, {
-   TextFormField? title,
-   List<Widget>? actions,
-   Widget? content,
+  TextFormField? title,
+  List<Widget>? actions,
+  Widget? content,
 }) {
   return showDialog(
     context: (context),
@@ -24,7 +24,9 @@ Future dialogue(
 }
 
 otpTextField(BuildContext context) {
-  return dialogue(context, actions:  [
+  return dialogue(
+    context,
+    actions: [
       Visibility(
         visible: true,
         child: TextButton(
@@ -50,9 +52,11 @@ otpTextField(BuildContext context) {
         },
         child: Text('Continue'),
       ),
-    ], title: customTextField(
+    ],
+    title: customTextField(
       controller: otpController,
       hintText: 'Enter code recieved',
       keyboardType: TextInputType.number,
-    ),);
+    ),
+  );
 }

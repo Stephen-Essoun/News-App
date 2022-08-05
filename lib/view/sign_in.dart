@@ -41,82 +41,104 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      foregroundDecoration: BoxDecoration(
-        color: Colors.black26,
-      ),
-      
-      child: FutureBuilder<Object>(
-          future: Firebase.initializeApp(),
-          builder: (context, snapshot) {
-            return Form(
-              key: _formKey,
-              child: Scaffold(
-                backgroundColor: Colors.transparent,
-                body: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      customTextField(
-                        hintText: 'Phone(starts with country code)',
-                        controller: phoneController,
-                        keyboardType: TextInputType.phone,
-                        validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return dialogue(context,
-                                content: Text('Please enter your phone'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text('Okay'),
-                                  ),
-                                ]).toString();
-                          } else if (value.length < 10 || value.length > 14) {
-                            return dialogue(context,
-                                content: Text('Invalid input'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text('Okay'),
-                                  ),
-                                ]).toString();
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          log('pressed');
-                          if (_formKey.currentState!.validate()) {
-                            _auth.verifyFone();
-                            Future.delayed(
-                              Duration(
-                                seconds: 10,
-                              ),
-                              () {
-                                return otpTextField(context);
-                              },
-                            );
-                          }
-                        },
-                        child: Text(
-                          'Verify',
+    return SafeArea(
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.blue,
+              Colors.black,
+              Colors.red,
+              Colors.black,
+              Colors.red,
+              Colors.black,
+              Colors.blue,
+              Colors.black,
+    
+            ],
+            transform: GradientRotation(0),
+            stops: [
+              0.1,
+              0.1,
+              0.1,
+              0.2,
+              0.3,
+              0.1,0.4,2
+            ],
+          ),
+        ),
+        child: FutureBuilder<Object>(
+            future: Firebase.initializeApp(),
+            builder: (context, snapshot) {
+              return Form(
+                key: _formKey,
+                child: Scaffold(
+                  backgroundColor: Colors.transparent,
+                  body: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        customTextField(
+                          hintText: 'Phone(starts with country code)',
+                          controller: phoneController,
+                          keyboardType: TextInputType.phone,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return dialogue(context,
+                                  content: Text('Please enter your phone'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('Okay'),
+                                    ),
+                                  ]).toString();
+                            } else if (value.length < 10 || value.length > 14) {
+                              return dialogue(context,
+                                  content: Text('Invalid input'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('Okay'),
+                                    ),
+                                  ]).toString();
+                            }
+                            return null;
+                          },
                         ),
-                      )
-                    ],
+                        SizedBox(
+                          height: 10,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            log('pressed');
+                            if (_formKey.currentState!.validate()) {
+                              _auth.verifyFone();
+                              Future.delayed(
+                                Duration(
+                                  seconds: 10,
+                                ),
+                                () {
+                                  return otpTextField(context);
+                                },
+                              );
+                            }
+                          },
+                          child: Text(
+                            'Verify',
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          }),
+              );
+            }),
+      ),
     );
   }
 }
