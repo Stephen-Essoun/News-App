@@ -26,7 +26,7 @@ TextFormField customTextField({
     decoration: InputDecoration(
         filled: true,
         hintText: hintText,
-        fillColor: Color.fromARGB(255, 178, 91, 91),
+        fillColor: Color.fromARGB(255, 253, 253, 253),
         isDense: true,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
   );

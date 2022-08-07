@@ -6,6 +6,9 @@ import '../view/home.dart';
 import '../view/sign_in.dart';
 
 PhoneAuth _auth = PhoneAuth();
+final context = BuildContext;
+  final _formKey = GlobalKey<FormState>();
+
 
 Future dialogue(
   BuildContext context, {
@@ -46,8 +49,11 @@ otpTextField(BuildContext context) {
         onPressed: () {
           _auth.verifyOtp();
           Future.delayed(Duration(seconds: 1), () {
-            Navigator.pushAndRemoveUntil(context,
+            if(_formKey.currentState!.validate()){
+               Navigator.pushAndRemoveUntil(context,
                 MaterialPageRoute(builder: (_) => Home()), (route) => false);
+            }
+           
           });
         },
         child: Text('Continue'),
@@ -57,6 +63,19 @@ otpTextField(BuildContext context) {
       controller: otpController,
       hintText: 'Enter code recieved',
       keyboardType: TextInputType.number,
+      validator: (value) {
+        if (value != otpController.text) {
+          return dialogue(context,content: Text('sorry, code do not match'), actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Okay'),
+            ),
+          ]).toString();
+        }
+        return '';
+      },
     ),
   );
 }

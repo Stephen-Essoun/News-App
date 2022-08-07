@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' show log;
 
+import '../const/constant.dart' show space;
 import '../utilities/textfield.dart';
 
 final _auth = PhoneAuth();
@@ -18,6 +19,7 @@ class SignIn extends StatefulWidget {
 
 late TextEditingController phoneController;
 late TextEditingController otpController;
+late String country_code_picker;
 
 class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
@@ -70,15 +72,28 @@ class _SignInState extends State<SignIn> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CountryCodePicker(
-                          backgroundColor: Colors.amber,
-                          dialogBackgroundColor: Colors.blue[300],
-                          flagDecoration: BoxDecoration(
-                            shape: BoxShape.circle,
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.06,
+                          width: MediaQuery.of(context).size.width * 1,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),),
+                          child: CountryCodePicker(
+                            backgroundColor: Colors.amber,
+                            dialogBackgroundColor: Colors.blue[300],
+                            flagDecoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                            ),
+                            initialSelection: "GH",
+                            showCountryOnly: false,
+                            onInit: (code) {
+                              country_code_picker = code.toString();
+                            }, onChanged: (code) {
+                              country_code_picker = code.toString();
+                            },
                           ),
-                          initialSelection: "GH",
-                          showCountryOnly: false,
                         ),
+                        space,
                         customTextField(
                           hintText: 'Phone',
                           decoration: InputDecoration(
@@ -99,7 +114,7 @@ class _SignInState extends State<SignIn> {
                                       child: Text('Okay'),
                                     ),
                                   ]).toString();
-                            } else if (value.length < 10 || value.length > 14) {
+                            } else if (value.length < 9 || value.length > 14 || country_code_picker.trim().isEmpty ) {
                               return dialogue(context,
                                   content: Text('Invalid input'),
                                   actions: [
@@ -114,9 +129,7 @@ class _SignInState extends State<SignIn> {
                             return null;
                           },
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        space,
                         ElevatedButton(
                           onPressed: () {
                             log('pressed');
