@@ -1,7 +1,6 @@
 import 'package:chedda/service/auth/phone_auth.dart';
 import 'package:chedda/utilities/fuctions.dart';
-import 'package:chedda/view/home.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' show log;
@@ -54,17 +53,9 @@ class _SignInState extends State<SignIn> {
               Colors.black,
               Colors.blue,
               Colors.black,
-    
             ],
             transform: GradientRotation(0),
-            stops: [
-              0.1,
-              0.1,
-              0.1,
-              0.2,
-              0.3,
-              0.1,0.4,2
-            ],
+            stops: [0.1, 0.1, 0.1, 0.2, 0.3, 0.1, 0.4, 2],
           ),
         ),
         child: FutureBuilder<Object>(
@@ -79,8 +70,21 @@ class _SignInState extends State<SignIn> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        CountryCodePicker(
+                          backgroundColor: Colors.amber,
+                          dialogBackgroundColor: Colors.blue[300],
+                          flagDecoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
+                          initialSelection: "GH",
+                          showCountryOnly: false,
+                        ),
                         customTextField(
-                          hintText: 'Phone(starts with country code)',
+                          hintText: 'Phone',
+                          decoration: InputDecoration(
+                            isDense: true,
+                            errorStyle: TextStyle(height: 0, fontSize: 0),
+                          ),
                           controller: phoneController,
                           keyboardType: TextInputType.phone,
                           validator: (value) {

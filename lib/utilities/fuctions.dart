@@ -60,3 +60,31 @@ otpTextField(BuildContext context) {
     ),
   );
 }
+
+validator(
+  BuildContext context,
+  value,
+) {
+  if (value == null || value.trim().isEmpty) {
+    return dialogue(context,
+        content: Text('Please enter your phone'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Okay'),
+          ),
+        ]).toString();
+  } else if (value.length < 10 || value.length > 14) {
+    return dialogue(context, content: Text('Invalid input'), actions: [
+      TextButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        child: Text('Okay'),
+      ),
+    ]).toString();
+  }
+  return null;
+}
