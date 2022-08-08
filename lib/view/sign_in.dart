@@ -19,6 +19,7 @@ class SignIn extends StatefulWidget {
 
 late TextEditingController phoneController;
 late TextEditingController otpController;
+// ignore: non_constant_identifier_names
 late String country_code_picker;
 
 class _SignInState extends State<SignIn> {
@@ -76,8 +77,9 @@ class _SignInState extends State<SignIn> {
                           height: MediaQuery.of(context).size.height * 0.06,
                           width: MediaQuery.of(context).size.width * 1,
                           decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                           child: CountryCodePicker(
                             backgroundColor: Colors.amber,
                             dialogBackgroundColor: Colors.blue[300],
@@ -88,7 +90,8 @@ class _SignInState extends State<SignIn> {
                             showCountryOnly: false,
                             onInit: (code) {
                               country_code_picker = code.toString();
-                            }, onChanged: (code) {
+                            },
+                            onChanged: (code) {
                               country_code_picker = code.toString();
                             },
                           ),
@@ -114,7 +117,9 @@ class _SignInState extends State<SignIn> {
                                       child: Text('Okay'),
                                     ),
                                   ]).toString();
-                            } else if (value.length < 9 || value.length > 14 || country_code_picker.trim().isEmpty ) {
+                            } else if (value.length < 9 ||
+                                value.length > 14 ||
+                                country_code_picker.trim().isEmpty) {
                               return dialogue(context,
                                   content: Text('Invalid input'),
                                   actions: [

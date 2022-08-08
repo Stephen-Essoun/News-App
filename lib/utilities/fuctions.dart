@@ -1,5 +1,7 @@
 import 'package:chedda/service/auth/phone_auth.dart';
 import 'package:chedda/utilities/textfield.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import '../view/home.dart';
@@ -30,14 +32,11 @@ otpTextField(BuildContext context) {
   return dialogue(
     context,
     actions: [
-      Visibility(
-        visible: true,
-        child: TextButton(
-          onPressed: () {
-            _auth.verifyFone();
-          },
-          child: Text('Resend code'),
-        ),
+      TextButton(
+        onPressed: () {
+          _auth.verifyFone();
+        },
+        child: Text('Resend code'),
       ),
       TextButton(
         onPressed: () {
@@ -48,17 +47,17 @@ otpTextField(BuildContext context) {
       TextButton(
         onPressed: () {
           _auth.verifyOtp();
-          Future.delayed(Duration(seconds: 1), () {
-            if(_formKey.currentState!.validate()){
-               Navigator.pushAndRemoveUntil(context,
+          Future.delayed(Duration(seconds: 2), () {
+            Navigator.pushAndRemoveUntil(context,
                 MaterialPageRoute(builder: (_) => Home()), (route) => false);
-            }
+           
            
           });
         },
         child: Text('Continue'),
       ),
     ],
+
     title: customTextField(
       controller: otpController,
       hintText: 'Enter code recieved',
@@ -94,7 +93,7 @@ validator(
             },
             child: Text('Okay'),
           ),
-        ]).toString();
+        ]);
   } else if (value.length < 10 || value.length > 14) {
     return dialogue(context, content: Text('Invalid input'), actions: [
       TextButton(
@@ -103,7 +102,7 @@ validator(
         },
         child: Text('Okay'),
       ),
-    ]).toString();
+    ]);
   }
   return null;
 }
