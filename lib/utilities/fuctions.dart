@@ -1,29 +1,33 @@
 import 'package:chedda/service/auth/phone_auth.dart';
 import 'package:chedda/utilities/textfield.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import '../view/home.dart';
 import '../view/sign_in.dart';
 
 PhoneAuth _auth = PhoneAuth();
 final context = BuildContext;
-  final _formKey = GlobalKey<FormState>();
-
+final _formKey = GlobalKey<FormState>();
 
 Future dialogue(
   BuildContext context, {
-  TextFormField? title,
+  Widget? title,
   List<Widget>? actions,
   Widget? content,
 }) {
   return showDialog(
     context: (context),
-    builder: (_) => AlertDialog(
-      title: title,
-      content: content,
-      actions: actions,
+    barrierColor: Color.fromARGB(205, 0, 0, 0),
+    builder: (_) => ListView(
+      physics: NeverScrollableScrollPhysics(),
+      scrollDirection: Axis.horizontal,
+      children: [
+        AlertDialog(
+          title: title,
+          content: content,
+          actions: actions,
+        ),
+      ],
     ),
   );
 }
@@ -46,36 +50,75 @@ otpTextField(BuildContext context) {
       ),
       TextButton(
         onPressed: () {
-          _auth.verifyOtp();
-          Future.delayed(Duration(seconds: 2), () {
-            Navigator.pushAndRemoveUntil(context,
-                MaterialPageRoute(builder: (_) => Home()), (route) => false);
-           
-           
-          });
+          if(_formKey.currentState!.validate()){ _auth.verifyOtp();
+          Future.delayed(
+            Duration(seconds: 2),
+            () {
+          
+               Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => Home()),
+                (route) => false,
+              );
+            
+             
+            },
+          );}
+         
         },
         child: Text('Continue'),
       ),
     ],
-
-    title: customTextField(
-      controller: otpController,
-      hintText: 'Enter code recieved',
-      keyboardType: TextInputType.number,
-      validator: (value) {
-        if (value != otpController.text) {
-          return dialogue(context,content: Text('sorry, code do not match'), actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Okay'),
-            ),
-          ]).toString();
-        }
-        return '';
-      },
+    title: Form(key: _formKey,
+      child: OtpTextField(
+          numberOfFields: 6,
+          borderColor: Color(0xFF512DA8),
+          //set to true to show as box or false to show as dash
+          showFieldAsBox: true,
+          //runs when a code is typed in
+          onCodeChanged: (String code) {
+            if (code.trim().isEmpty) {
+              dialogue(context, content: Text('Fields can not be empty'),actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text('Okay'),
+        ),
+      ]);
+            } else if (code != code) {
+              dialogue(context, content: Text('Code mismatch'),actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text('Okay'),
+        ),
+      ]);
+            }
+          }
+          //runs when every textfield is filled
+          // end onSubmit
+          ),
     ),
+    // customTextField(
+    //   controller: otpController,
+    //   hintText: 'Enter code recieved',
+    //   keyboardType: TextInputType.number,
+    //   validator: (value) {
+    //     if (value != otpController.text) {
+    //       return dialogue(context,content: Text('sorry, code do not match'), actions: [
+    //         TextButton(
+    //           onPressed: () {
+    //             Navigator.of(context).pop();
+    //           },
+    //           child: Text('Okay'),
+    //         ),
+    //       ]).toString();
+    //     }
+    //     return '';
+    //   },
+    // ),
   );
 }
 

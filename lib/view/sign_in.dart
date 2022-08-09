@@ -139,7 +139,7 @@ class _SignInState extends State<SignIn> {
                           onPressed: () {
                             log('pressed');
                             if (_formKey.currentState!.validate()) {
-                              _auth.verifyFone();
+                              // _auth.verifyFone();
                               Future.delayed(
                                 Duration(
                                   seconds: 10,
