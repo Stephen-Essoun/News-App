@@ -32,6 +32,9 @@ Future dialogue(
   );
 }
 
+
+
+
 otpTextField(BuildContext context) {
   return dialogue(
     context,
@@ -50,7 +53,7 @@ otpTextField(BuildContext context) {
       ),
       TextButton(
         onPressed: () {
-          if(_formKey.currentState!.validate()){ _auth.verifyOtp();
+           _auth.verifyOtp();
           Future.delayed(
             Duration(seconds: 2),
             () {
@@ -63,7 +66,7 @@ otpTextField(BuildContext context) {
             
              
             },
-          );}
+          );
          
         },
         child: Text('Continue'),
@@ -121,6 +124,8 @@ otpTextField(BuildContext context) {
     // ),
   );
 }
+
+
 
 validator(
   BuildContext context,

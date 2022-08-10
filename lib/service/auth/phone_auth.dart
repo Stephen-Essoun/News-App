@@ -8,7 +8,7 @@ class PhoneAuth {
   int? _resendToken;
   verifyFone() async {
     await auth.verifyPhoneNumber(
-      phoneNumber: '${country_code_picker+phoneController.text}',
+      phoneNumber: '$country_code_picker ${phoneController.text}',
       verificationCompleted: (PhoneAuthCredential credential) {
         print('verificated complete');
       },
