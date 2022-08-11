@@ -149,15 +149,14 @@ class _HomeState extends State<Home> {
                   return Center(child: spinkit);
                 }
                 else if (snapshot.connectionState == ConnectionState.done) {
-                  return Center(
-                      child: Text("please check your internet connection"));
-                }
+                 
+                
 
                 return StaggeredGridView.countBuilder(
                     crossAxisCount: 2,
                     crossAxisSpacing: 8,
                     mainAxisSpacing: 10,
-                    itemCount: snapshot.data!.articles!.length,
+                    itemCount: 10,
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         child: Container(
@@ -199,9 +198,10 @@ class _HomeState extends State<Home> {
                     },
                     staggeredTileBuilder: (index) {
                       return new StaggeredTile.count(
-                          1, index.isEven ? 1.2 : 1.4);
-                    });
-              }),
+                          1 , index.isEven ? 1.6 : 1.4);
+                });
+              } return Center(
+                      child: Text("please check your internet connection"),);}),
         ));
   }
 }

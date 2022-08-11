@@ -1,10 +1,7 @@
 import 'package:chedda/service/auth/phone_auth.dart';
-import 'package:chedda/utilities/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import '../view/home.dart';
-import '../view/sign_in.dart';
-
 PhoneAuth _auth = PhoneAuth();
 final context = BuildContext;
 final _formKey = GlobalKey<FormState>();
@@ -73,36 +70,38 @@ otpTextField(BuildContext context) {
       ),
     ],
     title: Form(key: _formKey,
-      child: OtpTextField(
-          numberOfFields: 6,
-          borderColor: Color(0xFF512DA8),
-          //set to true to show as box or false to show as dash
-          showFieldAsBox: true,
-          //runs when a code is typed in
-          onCodeChanged: (String code) {
-            if (code.trim().isEmpty) {
-              dialogue(context, content: Text('Fields can not be empty'),actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text('Okay'),
-        ),
-      ]);
-            } else if (code != code) {
-              dialogue(context, content: Text('Code mismatch'),actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text('Okay'),
-        ),
-      ]);
-            }
-          }
-          //runs when every textfield is filled
-          // end onSubmit
+      child: Center(
+        child: OtpTextField(
+            numberOfFields: 6,
+            borderColor: Color(0xFF512DA8),
+            //set to true to show as box or false to show as dash
+            showFieldAsBox: true,
+            //runs when a code is typed in
+            onCodeChanged: (String code) {
+              if (code.trim().isEmpty) {
+                dialogue(context, content: Text('Fields can not be empty'),actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Okay'),
           ),
+        ]);
+              } else if (code != code) {
+                dialogue(context, content: Text('Code mismatch'),actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Okay'),
+          ),
+        ]);
+              }
+            }
+            //runs when every textfield is filled
+            // end onSubmit
+            ),
+      ),
     ),
     // customTextField(
     //   controller: otpController,

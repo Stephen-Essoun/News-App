@@ -1,5 +1,6 @@
 import 'package:chedda/service/auth/phone_auth.dart';
 import 'package:chedda/utilities/fuctions.dart';
+import 'package:chedda/view/otp_textfield.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -89,7 +90,8 @@ class _SignInState extends State<SignIn> {
                             initialSelection: "GH",
                             showCountryOnly: false,
                             onInit: (code) {
-                              country_code_picker = code.toString();
+                              print(code!.dialCode);
+                              country_code_picker = code.dialCode.toString();
                             },
                             onChanged: (code) {
                               country_code_picker = code.toString();
@@ -145,7 +147,8 @@ class _SignInState extends State<SignIn> {
                                   seconds: 10,
                                 ),
                                 () {
-                                  return otpTextField(context);
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (_) => OtpCodeReciver()));
                                 },
                               );
                             }
