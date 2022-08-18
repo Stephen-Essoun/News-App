@@ -1,6 +1,7 @@
-import 'package:chedda/model/api.dart';
-import 'package:http/http.dart';
 
+import 'package:all_news/model/api.dart';
+import 'package:http/http.dart';
+ 
 class Network {
   String newsApiUrl =
       "http://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=54d9339efa2d4e419e61ff0f8158b581";

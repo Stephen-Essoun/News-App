@@ -1,6 +1,6 @@
-import 'package:chedda/view/sign_in.dart';
+import 'package:all_news/view/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+ 
 class PhoneAuth {
   bool otpvisible = false;
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -8,7 +8,7 @@ class PhoneAuth {
   int? _resendToken;
   verifyFone() async {
     await auth.verifyPhoneNumber(
-      phoneNumber: '$country_code_picker ${phoneController.text}',
+      phoneNumber: '$country_code_picker${phoneController.text}',
       verificationCompleted: (PhoneAuthCredential credential) {
         print('verificated complete');
       },
@@ -24,7 +24,7 @@ class PhoneAuth {
         _resendToken = resendToken;
       },
       forceResendingToken: _resendToken,
-      timeout: Duration(
+      timeout:const Duration(
         seconds: 10,
       ),
       codeAutoRetrievalTimeout: (String verificationId) {},

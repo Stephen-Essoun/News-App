@@ -1,6 +1,7 @@
-import 'package:chedda/service/auth/email_auth.dart';
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 
+import '../../service/auth/email_auth.dart';
+ 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
 

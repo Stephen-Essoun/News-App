@@ -1,13 +1,14 @@
-import 'package:chedda/service/auth/phone_auth.dart';
-import 'package:chedda/utilities/fuctions.dart';
-import 'package:chedda/view/otp_textfield.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' show log;
+import 'package:flutter/services.dart'; 
+import 'dart:developer' as console show log;
 
 import '../const/constant.dart' show space;
+import '../service/auth/phone_auth.dart';
+import '../utilities/fuctions.dart';
 import '../utilities/textfield.dart';
+import 'otp_textfield.dart';
 
 final _auth = PhoneAuth();
 
@@ -46,7 +47,7 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
               Colors.blue,
@@ -84,7 +85,7 @@ class _SignInState extends State<SignIn> {
                           child: CountryCodePicker(
                             backgroundColor: Colors.amber,
                             dialogBackgroundColor: Colors.blue[300],
-                            flagDecoration: BoxDecoration(
+                            flagDecoration: const BoxDecoration(
                               shape: BoxShape.rectangle,
                             ),
                             initialSelection: "GH",
@@ -100,8 +101,13 @@ class _SignInState extends State<SignIn> {
                         ),
                         space,
                         customTextField(
+                          onFieldSubmitted: (p0) {
+                            FilteringTextInputFormatter.deny(RegExp(r'^0+'));
+                            FilteringTextInputFormatter.allow(RegExp('[0-9]'));
+                            console.log(phoneController.text);
+                          },
                           hintText: 'Phone',
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             isDense: true,
                             errorStyle: TextStyle(height: 0, fontSize: 0),
                           ),
@@ -110,26 +116,27 @@ class _SignInState extends State<SignIn> {
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
                               return dialogue(context,
-                                  content: Text('Please enter your phone'),
+                                  content:
+                                      const Text('Please enter your phone'),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
-                                      child: Text('Okay'),
+                                      child: const Text('Okay'),
                                     ),
                                   ]).toString();
                             } else if (value.length < 9 ||
                                 value.length > 14 ||
                                 country_code_picker.trim().isEmpty) {
                               return dialogue(context,
-                                  content: Text('Invalid input'),
+                                  content: const Text('Invalid input'),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
-                                      child: Text('Okay'),
+                                      child: const Text('Okay'),
                                     ),
                                   ]).toString();
                             }
@@ -139,21 +146,21 @@ class _SignInState extends State<SignIn> {
                         space,
                         ElevatedButton(
                           onPressed: () {
-                            log('pressed');
+                            console.log('pressed');
                             if (_formKey.currentState!.validate()) {
                               _auth.verifyFone();
                               Future.delayed(
-                                Duration(
+                                const Duration(
                                   seconds: 10,
                                 ),
                                 () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (_) => OtpCodeReciver()));
+                                      builder: (_) => const OtpCodeReciver()));
                                 },
                               );
                             }
                           },
-                          child: Text(
+                          child: const Text(
                             'Verify',
                           ),
                         )

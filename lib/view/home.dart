@@ -1,14 +1,13 @@
-import 'package:chedda/view/news_in_detail.dart';
-import 'package:chedda/controller/network.dart';
-import 'package:chedda/view/sign_in.dart';
+import 'package:all_news/view/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart'; 
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import '../controller/network.dart';
 import '../model/api.dart';
+import 'news_in_detail.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -23,7 +22,7 @@ class _HomeState extends State<Home> {
   Network network = Network();
   @override
   void initState() {
-    newsData = network.getNews();
+    newsData = network.getNews() as Future<NewsApi>?;
     super.initState();
   }
 

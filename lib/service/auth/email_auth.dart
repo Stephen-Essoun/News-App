@@ -1,5 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer' as devprint show log;
+
+import 'package:firebase_auth/firebase_auth.dart';
 
 class EmailAuth {
   late final email;

@@ -14,10 +14,11 @@ TextFormField customTextField({
   bool autocorrect = true,
   void Function(String)? onChanged,
   void Function()? onTap,
+  void Function(String)? onFieldSubmitted,
   String? Function(String?)? validator,
-  
 }) {
   return TextFormField(
+    onFieldSubmitted: (value) {},
     controller: controller,
     keyboardType: keyboardType,
     validator: validator,
@@ -31,3 +32,5 @@ TextFormField customTextField({
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
   );
 }
+
+class field extends TextFormField {}

@@ -1,7 +1,8 @@
-import 'package:chedda/service/auth/phone_auth.dart';
+import 'package:all_news/service/auth/phone_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import '../view/home.dart';
+ import '../view/home.dart';
+ 
 PhoneAuth _auth = PhoneAuth();
 final context = BuildContext;
 final _formKey = GlobalKey<FormState>();
