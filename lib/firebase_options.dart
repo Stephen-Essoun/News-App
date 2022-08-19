@@ -50,21 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDUuLL2cMSfo1UoPYSMuCUQRYtuwLkBfc4',
-    appId: '1:145845990340:android:ff615f4b470251f780aa91',
-    messagingSenderId: '145845990340',
-    projectId: 'tech-news-e9c81',
-    storageBucket: 'tech-news-e9c81.appspot.com',
+    apiKey: 'AIzaSyCUlsZlR3676WLGYsQpJVmQ-GYOgrY68gw',
+    appId: '1:965544304677:android:f1d6c96e76abd9fea31fcc',
+    messagingSenderId: '965544304677',
+    projectId: 'my-news-74a43',
+    storageBucket: 'my-news-74a43.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyD6BiGfCZvhhc4b679ep2Ww2n8VIjexREk',
-    appId: '1:145845990340:ios:e7a6aef2c313df2980aa91',
-    messagingSenderId: '145845990340',
-    projectId: 'tech-news-e9c81',
-    storageBucket: 'tech-news-e9c81.appspot.com',
-    androidClientId: '145845990340-ajnr0r5japq0dkedh79gifaal8roas8r.apps.googleusercontent.com',
-    iosClientId: '145845990340-a70da9iisfkt3f3dpf2ndr7sjvl4ti6f.apps.googleusercontent.com',
-    iosBundleId: 'stephen-essoun.mynews.myNews',
+    apiKey: 'AIzaSyBYohmCmgFZs17RZWAPzzP16Oaup44oync',
+    appId: '1:965544304677:ios:c2f2e4932a3cc86da31fcc',
+    messagingSenderId: '965544304677',
+    projectId: 'my-news-74a43',
+    storageBucket: 'my-news-74a43.appspot.com',
+    iosClientId: '965544304677-2if6e0dnbqdgitkpbdt0o0hdqnm147sd.apps.googleusercontent.com',
+    iosBundleId: 'com.stephen-essoun.allnews.allNews',
   );
 }

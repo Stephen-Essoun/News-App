@@ -1,7 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; 
+import 'package:flutter/services.dart';
 import 'dart:developer' as console show log;
 
 import '../const/constant.dart' show space;
@@ -23,6 +23,10 @@ late TextEditingController phoneController;
 late TextEditingController otpController;
 // ignore: non_constant_identifier_names
 late String country_code_picker;
+String editedPhone = phoneController.text
+    .replaceFirst(RegExp(r'^0+'), country_code_picker.toString());
+
+    
 
 class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
@@ -91,21 +95,22 @@ class _SignInState extends State<SignIn> {
                             initialSelection: "GH",
                             showCountryOnly: false,
                             onInit: (code) {
-                              print(code!.dialCode);
-                              country_code_picker = code.dialCode.toString();
+                              print(code.toString());
+                              country_code_picker = code.toString();
                             },
                             onChanged: (code) {
-                              country_code_picker = code.toString();
+                              country_code_picker = code.dialCode.toString();
+                              print(code.toString());
                             },
                           ),
                         ),
                         space,
                         customTextField(
-                          onFieldSubmitted: (p0) {
-                            FilteringTextInputFormatter.deny(RegExp(r'^0+'));
-                            FilteringTextInputFormatter.allow(RegExp('[0-9]'));
-                            console.log(phoneController.text);
-                          },
+                          // onFieldSubmitted: (p0) {
+                          //   FilteringTextInputFormatter.deny(RegExp(r'^0+'));
+                          //   FilteringTextInputFormatter.allow(RegExp('[0-9]'));
+                          //   print(phoneController.text);
+                          // },
                           hintText: 'Phone',
                           decoration: const InputDecoration(
                             isDense: true,
@@ -146,7 +151,7 @@ class _SignInState extends State<SignIn> {
                         space,
                         ElevatedButton(
                           onPressed: () {
-                            console.log('pressed');
+                            print(editedPhone);
                             if (_formKey.currentState!.validate()) {
                               _auth.verifyFone();
                               Future.delayed(
@@ -154,8 +159,8 @@ class _SignInState extends State<SignIn> {
                                   seconds: 10,
                                 ),
                                 () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (_) => const OtpCodeReciver()));
+                                  // Navigator.of(context).push(MaterialPageRoute(
+                                  //     builder: (_) => const OtpCodeReciver()));
                                 },
                               );
                             }

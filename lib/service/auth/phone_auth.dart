@@ -1,6 +1,6 @@
 import 'package:all_news/view/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
- 
+
 class PhoneAuth {
   bool otpvisible = false;
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -8,13 +8,9 @@ class PhoneAuth {
   int? _resendToken;
   verifyFone() async {
     await auth.verifyPhoneNumber(
-      phoneNumber: '$country_code_picker${phoneController.text}',
-      verificationCompleted: (PhoneAuthCredential credential) {
-        print('verificated complete');
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        print(e.code);
-      },
+      phoneNumber: editedPhone,
+      verificationCompleted: (PhoneAuthCredential credential) {},
+      verificationFailed: (FirebaseAuthException e) {},
       codeSent: (
         String verificationId,
         int? resendToken,
@@ -24,7 +20,7 @@ class PhoneAuth {
         _resendToken = resendToken;
       },
       forceResendingToken: _resendToken,
-      timeout:const Duration(
+      timeout: const Duration(
         seconds: 10,
       ),
       codeAutoRetrievalTimeout: (String verificationId) {},
@@ -37,9 +33,9 @@ class PhoneAuth {
       smsCode: otpController.text,
     );
     await auth.signInWithCredential(credential).then(
-          (value) {
-            
-          },
-        );
+      (value) {
+        print('All done');
+      },
+    );
   }
 }
