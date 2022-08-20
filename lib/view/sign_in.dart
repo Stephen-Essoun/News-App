@@ -26,8 +26,6 @@ late String country_code_picker;
 String editedPhone = phoneController.text
     .replaceFirst(RegExp(r'^0+'), country_code_picker.toString());
 
-    
-
 class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
 
@@ -95,7 +93,6 @@ class _SignInState extends State<SignIn> {
                             initialSelection: "GH",
                             showCountryOnly: false,
                             onInit: (code) {
-                              print(code.toString());
                               country_code_picker = code.toString();
                             },
                             onChanged: (code) {
@@ -111,7 +108,7 @@ class _SignInState extends State<SignIn> {
                           //   FilteringTextInputFormatter.allow(RegExp('[0-9]'));
                           //   print(phoneController.text);
                           // },
-                          hintText: 'Phone',
+                          labelText: 'Phone',
                           decoration: const InputDecoration(
                             isDense: true,
                             errorStyle: TextStyle(height: 0, fontSize: 0),

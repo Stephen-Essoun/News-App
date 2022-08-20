@@ -1,17 +1,16 @@
 import 'dart:developer' as devprint show log;
 
+import 'package:all_news/view/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class EmailAuth {
-  late final email;
-  late final password;
-  EmailAuth({this.email,this.password});
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  void createUser() async {
+  void createUser({required String email, required String password}) async {
     try {
-      final user = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email,password: password)
-          .then((value) => null);
+      _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) => verifyUser());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         devprint.log('Email already in use');
@@ -23,11 +22,12 @@ class EmailAuth {
     }
   }
 
-  void loginUser ()async{
-    try{
-      final user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException catch (e){
-       if (e.code == 'wrong-password') {
+  void loginUser({required String email, required String password}) async {
+    try {
+      final user = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'wrong-password') {
         devprint.log('Incorrect password');
       } else if (e.code == 'invalid-email') {
         devprint.log('Invalid email address');
@@ -37,8 +37,12 @@ class EmailAuth {
     }
   }
 
-  void verifyUser()async{
-    final user =  FirebaseAuth.instance.currentUser;
+  void handleSignOut() async {
+    await _firebaseAuth.signOut();
+  }
+
+  void verifyUser() async {
+    final user = _firebaseAuth.currentUser;
     await user!.sendEmailVerification();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:all_news/view/email_auth_view/login_view.dart';
 import 'package:all_news/view/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +24,12 @@ class _SplashState extends State<Splash> {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => StreamBuilder<User?>(builder: (_,snapshot){
       if(snapshot.hasData){
-        return Home();
+        return const Home();
       }
       if(snapshot.hasError){
         return Scaffold(body: Center(child: Text(snapshot.error.toString()),),);
       }
-      return SignIn();
+      return const LoginView();
     },stream: FirebaseAuth.instance.authStateChanges()),));
     });
   }

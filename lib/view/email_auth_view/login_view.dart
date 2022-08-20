@@ -1,7 +1,11 @@
- import 'package:flutter/material.dart';
+import 'package:all_news/const/constant.dart';
+import 'package:all_news/utilities/textfield.dart';
+import 'package:all_news/view/email_auth_view/register_view.dart';
+import 'package:all_news/view/email_auth_view/toggleView.dart';
+import 'package:flutter/material.dart';
 
 import '../../service/auth/email_auth.dart';
- 
+
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
 
@@ -10,33 +14,57 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  late final TextEditingController _email;
-  late final TextEditingController _password;
+  late final TextEditingController email;
+  late final TextEditingController password;
+  final EmailAuth _auth = EmailAuth();
 
   @override
   void initState() {
-    _email = TextEditingController();
-    _password = TextEditingController();
+    email = TextEditingController();
+    password = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    _email.dispose();
-    _password.dispose();
+    email.dispose();
+    password.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView(
-      children: [
-        TextField(controller: _email,),
-        TextField(controller: _password,),
-        TextButton(onPressed: () {
-          EmailAuth(email:_email,password:_password).loginUser();
-        }, child: Text('Login'))
-      ],
+        body: Form(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            customTextField(controller: email, labelText: 'Email'),
+            space,
+            customTextField(
+              controller: password,
+              labelText: 'Password',
+            ),
+            space,
+            ElevatedButton(
+                onPressed: () {
+                  _auth.loginUser(email: email.text, password: password.text);
+                },
+                child: const Text('Login')),
+            space,
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (_) => const RegisterView()),
+                      (route) => false);
+                },
+                child: const Text("Don't have an account yet? Register"))
+          ],
+        ),
+      ),
     ));
   }
 }

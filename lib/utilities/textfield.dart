@@ -8,7 +8,7 @@ TextFormField customTextField({
   TextInputType? keyboardType,
   TextInputAction? textInputAction,
   TextStyle? style,
-  String? hintText,
+  String? labelText,
   String obscuringCharacter = '•',
   bool obscureText = false,
   bool autocorrect = true,
@@ -26,7 +26,7 @@ TextFormField customTextField({
     obscureText: obscureText,
     decoration: InputDecoration(
         filled: true,
-        hintText: hintText,
+        labelText: labelText,
         fillColor: Color.fromARGB(255, 253, 253, 253),
         isDense: true,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
