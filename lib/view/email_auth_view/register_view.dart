@@ -15,9 +15,11 @@ class RegisterView extends StatefulWidget {
 class _RegisterViewState extends State<RegisterView> {
   late final TextEditingController email;
   late final TextEditingController password;
+  final EmailAuth _auth = EmailAuth();
 
   @override
   void initState() {
+    _auth.currentuser;
     email = TextEditingController();
     password = TextEditingController();
     super.initState();
@@ -32,7 +34,6 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
-    final EmailAuth _auth = EmailAuth();
     return Scaffold(
         body: Form(
       child: Padding(
@@ -51,6 +52,7 @@ class _RegisterViewState extends State<RegisterView> {
             ElevatedButton(
                 onPressed: () {
                   _auth.createUser(email: email.text, password: password.text);
+                  _auth.verifyUser();
                 },
                 child: const Text('Register')),
             space,

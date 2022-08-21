@@ -1,9 +1,7 @@
 import 'package:all_news/const/constant.dart';
 import 'package:all_news/utilities/textfield.dart';
 import 'package:all_news/view/email_auth_view/register_view.dart';
-import 'package:all_news/view/email_auth_view/toggleView.dart';
 import 'package:flutter/material.dart';
-
 import '../../service/auth/email_auth.dart';
 
 class LoginView extends StatefulWidget {
@@ -20,6 +18,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   void initState() {
+    _auth.context = context;
     email = TextEditingController();
     password = TextEditingController();
     super.initState();

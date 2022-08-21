@@ -1,3 +1,4 @@
+import 'package:all_news/const/constant.dart';
 import 'package:all_news/service/auth/email_auth.dart';
 import 'package:all_news/view/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,15 +36,6 @@ class _HomeState extends State<Home> {
     }
   }
 
-  final spinkit = SpinKitCircle(
-    itemBuilder: (BuildContext context, int index) {
-      return const DecoratedBox(
-        decoration: BoxDecoration(
-          color: Colors.blue,
-        ),
-      );
-    },
-  );
   final EmailAuth _auth = EmailAuth();
 
   @override
@@ -112,14 +104,13 @@ class _HomeState extends State<Home> {
                 fontWeight: FontWeight.bold),
           ),
           actions: [
-            ElevatedButton.icon(
+            IconButton(
               onPressed: () {
                 Future.delayed(
                     const Duration(seconds: 1), () => Center(child: spinkit));
                 _auth.handleSignOut();
               },
               icon: const Icon(Icons.logout),
-              label: const Text('LogOut'),
             )
           ],
           // actions: [

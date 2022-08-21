@@ -4,7 +4,7 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
  import '../view/home.dart';
  
 PhoneAuth _auth = PhoneAuth();
-final context = BuildContext;
+const context = BuildContext;
 final _formKey = GlobalKey<FormState>();
 
 Future dialogue(
@@ -15,9 +15,9 @@ Future dialogue(
 }) {
   return showDialog(
     context: (context),
-    barrierColor: Color.fromARGB(205, 0, 0, 0),
+    barrierColor: const Color.fromARGB(205, 0, 0, 0),
     builder: (_) => ListView(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       scrollDirection: Axis.horizontal,
       children: [
         AlertDialog(
@@ -41,24 +41,24 @@ otpTextField(BuildContext context) {
         onPressed: () {
           _auth.verifyFone();
         },
-        child: Text('Resend code'),
+        child: const Text('Resend code'),
       ),
       TextButton(
         onPressed: () {
           Navigator.of(context).pop();
         },
-        child: Text('Cancel'),
+        child: const Text('Cancel'),
       ),
       TextButton(
         onPressed: () {
            _auth.verifyOtp();
           Future.delayed(
-            Duration(seconds: 2),
+            const Duration(seconds: 2),
             () {
           
                Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (_) => Home()),
+                MaterialPageRoute(builder: (_) => const Home()),
                 (route) => false,
               );
             
@@ -67,34 +67,34 @@ otpTextField(BuildContext context) {
           );
          
         },
-        child: Text('Continue'),
+        child: const Text('Continue'),
       ),
     ],
     title: Form(key: _formKey,
       child: Center(
         child: OtpTextField(
             numberOfFields: 6,
-            borderColor: Color(0xFF512DA8),
+            borderColor: const Color(0xFF512DA8),
             //set to true to show as box or false to show as dash
             showFieldAsBox: true,
             //runs when a code is typed in
             onCodeChanged: (String code) {
               if (code.trim().isEmpty) {
-                dialogue(context, content: Text('Fields can not be empty'),actions: [
+                dialogue(context, content: const Text('Fields can not be empty'),actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text('Okay'),
+            child: const Text('Okay'),
           ),
         ]);
               } else if (code != code) {
-                dialogue(context, content: Text('Code mismatch'),actions: [
+                dialogue(context, content: const Text('Code mismatch'),actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text('Okay'),
+            child: const Text('Okay'),
           ),
         ]);
               }
@@ -133,22 +133,22 @@ validator(
 ) {
   if (value == null || value.trim().isEmpty) {
     return dialogue(context,
-        content: Text('Please enter your phone'),
+        content: const Text('Please enter your phone'),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text('Okay'),
+            child: const Text('Okay'),
           ),
         ]);
   } else if (value.length < 10 || value.length > 14) {
-    return dialogue(context, content: Text('Invalid input'), actions: [
+    return dialogue(context, content: const Text('Invalid input'), actions: [
       TextButton(
         onPressed: () {
           Navigator.of(context).pop();
         },
-        child: Text('Okay'),
+        child: const Text('Okay'),
       ),
     ]);
   }
