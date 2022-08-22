@@ -107,8 +107,13 @@ class _HomeState extends State<Home> {
             IconButton(
               onPressed: () {
                 Future.delayed(
-                    const Duration(seconds: 1), () => Center(child: spinkit));
-                _auth.handleSignOut();
+                  const Duration(seconds: 1),
+                  () {
+                    _auth.handleSignOut();
+
+                    return Center(child: spinkit);
+                  },
+                );
               },
               icon: const Icon(Icons.logout),
             )

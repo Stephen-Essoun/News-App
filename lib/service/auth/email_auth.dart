@@ -1,5 +1,6 @@
 import 'package:all_news/const/constant.dart';
 import 'package:all_news/utilities/fuctions.dart';
+import 'package:all_news/view/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer' as devprint show log;
 import 'package:flutter/material.dart';
@@ -56,7 +57,10 @@ class EmailAuth {
   void loginUser({required String email, required String password}) async {
     try {
       await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) => Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (_) => const Home()),
+              (route) => false));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'wrong-password') {
         devprint.log('Incorrect password');
@@ -96,8 +100,7 @@ class EmailAuth {
   }
 
   void handleSignOut() async {
-    return await Future.delayed(const Duration(seconds: 2), () => spinkit)
-        .then((value) => _firebaseAuth.signOut());
+    await _firebaseAuth.signOut();
   }
 
   void verifyUser() async {

@@ -41,6 +41,12 @@ class _LoginViewState extends State<LoginView> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const Center(
+                child: Text(
+              "Welcome back",
+              style: TextStyle(fontSize: 35),
+            )),
+            space2,
             customTextField(controller: email, labelText: 'Email'),
             space,
             customTextField(
