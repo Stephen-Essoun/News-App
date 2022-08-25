@@ -1,6 +1,7 @@
-import 'package:all_news/const/constant.dart';
+import 'package:all_news/const/routes.dart';
+import 'package:all_news/view/email_auth_view/login_view.dart';
 import 'package:all_news/view/email_auth_view/register_view.dart';
-import 'package:all_news/view/sign_in.dart';
+import 'package:all_news/view/home.dart';
 import 'package:all_news/view/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,9 @@ void main() async{
   runApp(MaterialApp(
     home:const Splash(),debugShowCheckedModeBanner: false,
     routes: {
-      signInRoute :(context) => const SignIn(),
-      registerRoute :(context) => const RegisterView()
+      signInRoute :(context) => const LoginView(),
+      registerRoute :(context) => const RegisterView(),
+      homeRoute :(context) => const Home()
     },
      theme: ThemeData(
       errorColor: Colors.red,

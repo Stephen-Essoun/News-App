@@ -1,6 +1,7 @@
-import 'package:all_news/const/constant.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+ // ignore_for_file: file_names
+
+ import 'package:all_news/const/routes.dart';
+import 'package:flutter/material.dart'; 
 
 class ToggleView extends StatefulWidget {
   const ToggleView({Key? key}) : super(key: key);

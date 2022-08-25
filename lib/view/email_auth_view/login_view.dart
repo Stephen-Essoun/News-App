@@ -56,7 +56,19 @@ class _LoginViewState extends State<LoginView> {
             space,
             ElevatedButton(
                 onPressed: () {
-                  _auth.loginUser(email: email.text, password: password.text);
+                  setState(() {
+                    isLoading = true;
+                  });
+                  showDialog(
+                      context: context, builder: (_) => Center(child: spinkit));
+
+                  Future.delayed(
+                    const Duration(seconds: 2),
+                    () {
+                      _auth.loginUser(
+                          email: email.text, password: password.text);
+                    },
+                  );
                 },
                 child: const Text('Login')),
             space,

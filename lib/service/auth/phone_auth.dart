@@ -1,5 +1,7 @@
 import 'package:all_news/view/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:developer' as devprint show log;
+
 
 class PhoneAuth {
   bool otpvisible = false;
@@ -34,7 +36,7 @@ class PhoneAuth {
     );
     await auth.signInWithCredential(credential).then(
       (value) {
-        print('All done');
+        devprint.log('All done');
       },
     );
   }

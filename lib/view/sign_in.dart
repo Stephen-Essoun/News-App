@@ -1,15 +1,13 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'dart:developer' as console show log;
+ import 'dart:developer' as devprint show log;
 
 import '../const/constant.dart' show space;
 import '../service/auth/phone_auth.dart';
 import '../utilities/fuctions.dart';
 import '../utilities/textfield.dart';
-import 'otp_textfield.dart';
-
+ 
 final _auth = PhoneAuth();
 
 class SignIn extends StatefulWidget {
@@ -97,7 +95,7 @@ class _SignInState extends State<SignIn> {
                             },
                             onChanged: (code) {
                               country_code_picker = code.dialCode.toString();
-                              print(code.toString());
+                              devprint.log(code.toString());
                             },
                           ),
                         ),
@@ -148,7 +146,7 @@ class _SignInState extends State<SignIn> {
                         space,
                         ElevatedButton(
                           onPressed: () {
-                            print(editedPhone);
+                            devprint.log(editedPhone);
                             if (_formKey.currentState!.validate()) {
                               _auth.verifyFone();
                               Future.delayed(

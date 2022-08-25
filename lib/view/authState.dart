@@ -1,3 +1,5 @@
+ // ignore_for_file: file_names
+
  import 'package:flutter/material.dart'; 
 class AuthState extends StatefulWidget {
   const AuthState({Key? key}) : super(key: key);
@@ -11,7 +13,7 @@ class _AuthStateState extends State<AuthState> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       builder: (context, snapshot) {
-        return Scaffold() ;
+        return const Scaffold() ;
       },
     );
   }

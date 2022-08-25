@@ -1,10 +1,7 @@
 import 'package:all_news/const/constant.dart';
-import 'package:all_news/service/auth/email_auth.dart';
-import 'package:all_news/view/sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:all_news/service/auth/email_auth.dart'; 
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
+ import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../controller/network.dart';
@@ -24,7 +21,9 @@ class _HomeState extends State<Home> {
   Network network = Network();
   @override
   void initState() {
-    newsData = network.getNews() as Future<NewsApi>?;
+    _auth.context = context;
+
+    newsData = network.getNews();
     super.initState();
   }
 
@@ -76,8 +75,8 @@ class _HomeState extends State<Home> {
                                       Navigator.pop(context);
                                     });
                                   },
-                                  icon: Icon(Icons.thumb_up_off_alt_rounded),
-                                  label: Text('Yes'))
+                                  icon: const Icon(Icons.thumb_up_off_alt_rounded),
+                                  label: const Text('Yes'))
                             ],
                           ));
                 },
@@ -106,32 +105,19 @@ class _HomeState extends State<Home> {
           actions: [
             IconButton(
               onPressed: () {
+                showDialog(
+                    context: context, builder: (_) => Center(child: spinkit));
+
                 Future.delayed(
-                  const Duration(seconds: 1),
+                  const Duration(seconds: 2),
                   () {
                     _auth.handleSignOut();
-
-                    return Center(child: spinkit);
                   },
                 );
               },
               icon: const Icon(Icons.logout),
             )
           ],
-          // actions: [
-          //   Padding(
-          //     padding: const EdgeInsets.all(8.0),
-          //     child: IconButton(
-          //         onPressed: () {
-          //           setState(() {
-          //             isSearchVisible = !isSearchVisible;
-          //           });
-          //         },
-          //         icon: isSearchVisible
-          //             ? Icon(Icons.cancel)
-          //             : Icon(Icons.search)),
-          //   )
-          // ],
         ),
         body: Padding(
           padding: const EdgeInsets.only(top: 5, right: 10, left: 10),
@@ -187,11 +173,10 @@ class _HomeState extends State<Home> {
                         );
                       },
                       staggeredTileBuilder: (index) {
-                        return new StaggeredTile.count(
-                            1, index.isEven ? 1.6 : 1.4);
+                        return StaggeredTile.count(1, index.isEven ? 1.6 : 1.4);
                       });
                 }
-                return Center(
+                return const Center(
                   child: Text("please check your internet connection"),
                 );
               }),

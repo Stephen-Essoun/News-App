@@ -8,8 +8,8 @@ const space = SizedBox(
 const space2 = SizedBox(
   height: 80,
 );
-const signInRoute = '/signIn/';
-const registerRoute = '/register/';
+
+bool isLoading = false;
 
 final spinkit = SpinKitCircle(
   itemBuilder: (BuildContext context, int index) {

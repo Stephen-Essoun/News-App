@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Detector extends StatefulWidget {
-  Detector({Key? key, required this.detailed}) : super(key: key);
+ const Detector({Key? key, required this.detailed}) : super(key: key);
   final dynamic detailed;
 
   @override
@@ -12,44 +12,44 @@ class Detector extends StatefulWidget {
 class _DetectorState extends State<Detector> {
   @override
   Widget build(BuildContext context) {
-   final Uri _url = Uri.parse(widget.detailed.url);
+   final Uri url = Uri.parse(widget.detailed.url);
    
 void _launchUrl() async {
-  if (!await launchUrl(_url)) throw 'Could not launch $_url';
+  if (!await launchUrl(url)) throw 'Could not launch $url';
 }
 
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: Icon(Icons.arrow_back_ios_new)),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.share))],
+            icon: const Icon(Icons.arrow_back_ios_new)),
+        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.share))],
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 10,right: 10,left: 10),
         child: ListView(
           children: [
             Text(widget.detailed.title,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-            SizedBox(
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+            const SizedBox(
               height: 5,
             ),
             Image.network(widget.detailed.urlToImage),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
-            Text(widget.detailed.content, style: TextStyle(fontSize: 18)),
-            SizedBox(
+            Text(widget.detailed.content, style: const TextStyle(fontSize: 18)),
+            const SizedBox(
               height: 5,
             ),
-            Text(widget.detailed.description, style: TextStyle(fontSize: 18)),
-            SizedBox(
+            Text(widget.detailed.description, style: const TextStyle(fontSize: 18)),
+            const SizedBox(
               height: 10,
             ),
             Column(
               children: [
-                Text('Find more detailed info here'),
-                InkWell(child: Text('Click here', style: TextStyle(color: Colors.blue)),onTap: (){
+                const Text('Find more detailed info here'),
+                InkWell(child: const Text('Click here', style: TextStyle(color: Colors.blue)),onTap: (){
                     setState(() {_launchUrl();
                 });
   //                showDialog(
@@ -68,13 +68,13 @@ void _launchUrl() async {
   //           );
                 },),
               ],
-            ),SizedBox(
+            ),const SizedBox(
               height: 10,
             ),
             Center(
                 child: Text("Author:${widget.detailed.author}",
                     style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 15)))
+                        const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)))
           ],
         ),
       ),

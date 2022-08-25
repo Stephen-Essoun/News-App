@@ -6,8 +6,8 @@ class Indicator {
     return Center(
       child: SpinKitCircle(
         itemBuilder: (BuildContext context, int index) {
-          return DecoratedBox(
-            decoration: BoxDecoration(
+          return const DecoratedBox(
+            decoration:   BoxDecoration(
               color: Colors.blue,
             ),
           );

@@ -13,7 +13,7 @@ class OtpCodeReciver extends StatefulWidget {
 }
 
 class _OtpCodeReciverState extends State<OtpCodeReciver> {
-  PhoneAuth _auth = PhoneAuth();
+  final PhoneAuth _auth = PhoneAuth();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -27,7 +27,7 @@ class _OtpCodeReciverState extends State<OtpCodeReciver> {
           children: [
             OtpTextField(
                 numberOfFields: 6,
-                borderColor: Color(0xFF512DA8),
+                borderColor: const Color(0xFF512DA8),
                 //set to true to show as box or false to show as dash
                 showFieldAsBox: true,
                 //runs when a code is typed in
@@ -51,7 +51,7 @@ class _OtpCodeReciverState extends State<OtpCodeReciver> {
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            child: Text('Okay'),
+                            child: const Text('Okay'),
                           ),
                         ]);
                   }
@@ -81,7 +81,7 @@ class _OtpCodeReciverState extends State<OtpCodeReciver> {
                   );
                 }
               },
-              child: Text('Continue'),
+              child: const Text('Continue'),
             ),
           ],
         ),
