@@ -1,10 +1,11 @@
+
 import 'package:all_news/const/routes.dart';
 import 'package:all_news/utilities/fuctions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer' as devprint show log;
 import 'package:flutter/material.dart';
 
-class EmailAuth {
+class EmailAuth extends ChangeNotifier {
   late BuildContext context;
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -15,7 +16,7 @@ class EmailAuth {
       await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) => Navigator.of(context)
-              .pushNamedAndRemoveUntil(homeRoute, (route) => false));
+              .pushNamedAndRemoveUntil(emailVerifyRoute, (route) => false));
     } on FirebaseAuthException catch (e) {
       devprint.log(e.code);
       if (e.code == 'email-already-in-use') {
@@ -141,6 +142,13 @@ class EmailAuth {
 
   void verifyUser() async {
     // final user = _firebaseAuth.currentUser;
-    await currentuser!.sendEmailVerification();
+    try {
+      await currentuser!.sendEmailVerification().then((value) {
+        currentuser!.reload();
+        
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 }

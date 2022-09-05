@@ -1,8 +1,9 @@
+import 'package:all_news/controller/authState.dart';
 import 'package:all_news/view/email_auth_view/login_view.dart';
- import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'home.dart'; 
+import 'home.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -20,22 +21,16 @@ class _SplashState extends State<Splash> {
 
   navigateTo() async {
     await Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => StreamBuilder<User?>(builder: (_,snapshot){
-      if(snapshot.hasData){
-        return const Home();
-      }
-      if(snapshot.hasError){
-        return Scaffold(body: Center(child: Text(snapshot.error.toString()),),);
-      }
-      return const LoginView();
-    },stream: FirebaseAuth.instance.authStateChanges()),));
+     return  Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => const AuthState()));
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(image:DecorationImage(image: AssetImage('assets/images/bg.png')) ),
+      decoration: const BoxDecoration(
+          image: DecorationImage(image: AssetImage('assets/images/bg.png'))),
     );
   }
 }
