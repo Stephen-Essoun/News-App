@@ -19,7 +19,21 @@ class EmailVerifyView extends StatelessWidget {
           ElevatedButton(
               onPressed: () {
                 context.read<EmailAuth>().verifyUser();
-                context.read<EmailAuth>().currentuser!.reload();
+                context.read<EmailAuth>().currentuser!.reload().then((value) {
+                  showDialog(
+                      context: context,
+                      builder: (ctx) => const AspectRatio(
+                            aspectRatio: 16 / 19,
+                            child: Dialog(
+                              child: (Text(
+                                  'Check your email to verify then login back. Thanks!')),
+                            ),
+                          ));
+                  Future.delayed(
+                    const Duration(seconds: 3),
+                    () => Navigator.pushNamed(context, signInRoute),
+                  );
+                });
               },
               child: const Text('Verify')),
           IconButton(

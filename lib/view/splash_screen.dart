@@ -3,7 +3,6 @@ import 'package:all_news/view/email_auth_view/login_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'home.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -30,7 +29,7 @@ class _SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-          image: DecorationImage(image: AssetImage('assets/images/bg.png'))),
+          image: DecorationImage(image: AssetImage('assets/images/splash.png'))),
     );
   }
 }
