@@ -1,8 +1,7 @@
 import 'package:all_news/const/constant.dart';
-import 'package:all_news/service/auth/email_auth.dart'; 
+import 'package:all_news/service/auth/email_auth.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
- import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
-import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../controller/network.dart';
 import '../model/api.dart';
@@ -40,19 +39,20 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: const Color.fromARGB(50, 141, 0, 0),
         appBar: AppBar(
           leading: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: Color.fromARGB(255, 255, 255, 255),
+                color: Color(0xffffffff),
               ),
               child: Center(
                   child: IconButton(
                 icon: const Icon(
                   Icons.support,
-                  color: Color.fromARGB(255, 178, 91, 91),
+                  color: Color(0xff8d0000),
                 ),
                 onPressed: () {
                   showDialog(
@@ -75,7 +75,8 @@ class _HomeState extends State<Home> {
                                       Navigator.pop(context);
                                     });
                                   },
-                                  icon: const Icon(Icons.thumb_up_off_alt_rounded),
+                                  icon: const Icon(
+                                      Icons.thumb_up_off_alt_rounded),
                                   label: const Text('Yes'))
                             ],
                           ));
@@ -115,71 +116,96 @@ class _HomeState extends State<Home> {
                   },
                 );
               },
-              icon: const Icon(Icons.logout),
+              icon: const Icon(Icons.more_vert),
             )
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.only(top: 5, right: 10, left: 10),
-          child: FutureBuilder<NewsApi>(
-              future: newsData,
-              builder: (context, AsyncSnapshot<NewsApi> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: spinkit);
-                } else if (snapshot.connectionState == ConnectionState.done) {
-                  return StaggeredGridView.countBuilder(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 8,
-                      mainAxisSpacing: 10,
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.teal,
-                                borderRadius: BorderRadius.circular(20),
-                                image: DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: NetworkImage(snapshot
-                                        .data!.articles![index].urlToImage!))),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(.5),
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
-                                    padding: const EdgeInsets.all(5),
-                                    height: 100,
-                                    child: Center(
-                                        child: Text(
-                                      snapshot.data!.articles![index].title!,
-                                      style: const TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.white,
-                                      ),
-                                    ))),
-                              ],
-                            ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 5, right: 10, left: 10),
+            child: FutureBuilder<NewsApi>(
+                future: newsData,
+                builder: (context, AsyncSnapshot<NewsApi> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: spinkit);
+                  } else if (snapshot.connectionState == ConnectionState.done) {
+                    ///////////////
+                    var dataAvailable = snapshot.data!.articles;
+                    return CarouselSlider.builder(
+                      itemCount: dataAvailable!.length,
+                      itemBuilder: (context, index, realIndex) =>
+                          GestureDetector(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: const Color(0xff8d0000),
+                              borderRadius: BorderRadius.circular(20),
+                              image: DecorationImage(
+                                  fit: BoxFit.fitHeight,
+                                  image: NetworkImage(
+                                      dataAvailable[index].urlToImage!))),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.black.withOpacity(.5),
+                                      borderRadius: BorderRadius.circular(20)),
+                                  padding: const EdgeInsets.all(5),
+                                  height: 100,
+                                  child: Center(
+                                      child: Text(
+                                    snapshot.data!.articles![index].title!,
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                    ),
+                                  ))),
+                            ],
                           ),
-                          onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Detector(
-                                      detailed:
-                                          snapshot.data!.articles![index]))),
-                        );
-                      },
-                      staggeredTileBuilder: (index) {
-                        return StaggeredTile.count(1, index.isEven ? 1.6 : 1.4);
-                      });
-                }
-                return const Center(
-                  child: Text("please check your internet connection"),
-                );
-              }),
+                        ),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Detector(
+                                    detailed:
+                                        snapshot.data!.articles![index]))),
+                      ),
+                      options: CarouselOptions(
+                        height: 400,
+                        // aspectRatio: 1,
+                        viewportFraction: 0.8,
+                        initialPage: 0,
+                        enableInfiniteScroll: false,
+                        reverse: false,
+                        autoPlay: true,
+                        autoPlayInterval: const Duration(seconds: 3),
+                        autoPlayAnimationDuration:
+                            const Duration(milliseconds: 800),
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        enlargeCenterPage: true,
+                        enlargeFactor: 0.3,
+                        // onPageChanged: callbackFunction,
+                        scrollDirection: Axis.horizontal,
+                      ),
+                    );
+                    // return StaggeredGridView.countBuilder(
+                    //     crossAxisCount: 2,
+                    //     crossAxisSpacing: 8,
+                    //     mainAxisSpacing: 10,
+                    //     itemCount: 10,
+                    //     itemBuilder: (context, index) {
+                    //       return
+                    //     },
+                    //     staggeredTileBuilder: (index) {
+                    //       return StaggeredTile.count(1, index.isEven ? 1.6 : 1.4);
+                    //     });
+                  }
+                  return const Center(
+                    child: Text("please check your internet connection"),
+                  );
+                }),
+          ),
         ));
   }
 }

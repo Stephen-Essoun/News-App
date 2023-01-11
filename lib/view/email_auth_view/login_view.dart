@@ -66,19 +66,22 @@ class _LoginViewState extends State<LoginView> {
                     const Duration(seconds: 2),
                     () {
                       _auth.loginUser(
-                          email: email.text, password: password.text);
+                        email: email.text,
+                        password: password.text,
+                      );
                     },
                   );
                 },
                 child: const Text('Login')),
             space,
             TextButton(
-                onPressed: () {
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (_) => const RegisterView()),
-                      (route) => false);
-                },
-                child: const Text("Don't have an account yet? Register"))
+              onPressed: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => const RegisterView()),
+                    (route) => false);
+              },
+              child: const Text("Don't have an account yet? Register"),
+            )
           ],
         ),
       ),
