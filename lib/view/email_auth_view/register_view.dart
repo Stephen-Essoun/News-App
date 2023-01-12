@@ -1,7 +1,7 @@
 import 'package:all_news/const/constant.dart';
 import 'package:all_news/utilities/textfield.dart';
 import 'package:all_news/view/email_auth_view/login_view.dart';
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../../service/auth/email_auth.dart';
 
@@ -61,7 +61,7 @@ class _RegisterViewState extends State<RegisterView> {
                     showDialog(
                         context: context,
                         builder: (_) => Center(child: spinkit));
-                  } 
+                  }
                   Future.delayed(
                     const Duration(seconds: 2),
                     () {
@@ -73,12 +73,18 @@ class _RegisterViewState extends State<RegisterView> {
                 child: const Text('Register')),
             space,
             TextButton(
-                onPressed: () {
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (_) => const LoginView()),
-                      (route) => false);
-                },
-                child: const Text("Already a member? Login."))
+              onPressed: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => const LoginView()),
+                    (route) => false);
+              },
+              child: const Text(
+                "Already a member? Login",
+                style: TextStyle(
+                  color: Color(0xff8d0000),
+                ),
+              ),
+            )
           ],
         ),
       ),

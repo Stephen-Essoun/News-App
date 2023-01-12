@@ -116,7 +116,7 @@ class _HomeState extends State<Home> {
                   },
                 );
               },
-              icon: const Icon(Icons.more_vert),
+              icon: const Icon(Icons.logout),
             )
           ],
         ),
@@ -135,33 +135,38 @@ class _HomeState extends State<Home> {
                       itemCount: dataAvailable!.length,
                       itemBuilder: (context, index, realIndex) =>
                           GestureDetector(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: const Color(0xff8d0000),
-                              borderRadius: BorderRadius.circular(20),
-                              image: DecorationImage(
-                                  fit: BoxFit.fitHeight,
-                                  image: NetworkImage(
-                                      dataAvailable[index].urlToImage!))),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(.5),
-                                      borderRadius: BorderRadius.circular(20)),
-                                  padding: const EdgeInsets.all(5),
-                                  height: 100,
-                                  child: Center(
-                                      child: Text(
-                                    snapshot.data!.articles![index].title!,
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.white,
-                                    ),
-                                  ))),
-                            ],
+                        child: Card(
+                          elevation: 10,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: const Color(0xff8d0000),
+                                borderRadius: BorderRadius.circular(2),
+                                image: DecorationImage(
+                                    fit: BoxFit.fitHeight,
+                                    image: NetworkImage(
+                                        dataAvailable[index].urlToImage!))),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.black.withOpacity(.5),
+                                        borderRadius:
+                                            const BorderRadius.vertical(
+                                                top: Radius.circular(15))),
+                                    padding: const EdgeInsets.all(5),
+                                    height: 100,
+                                    child: Center(
+                                        child: Text(
+                                      snapshot.data!.articles![index].title!,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.white,
+                                      ),
+                                    ))),
+                              ],
+                            ),
                           ),
                         ),
                         onTap: () => Navigator.push(

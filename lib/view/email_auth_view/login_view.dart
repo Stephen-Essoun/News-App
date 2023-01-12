@@ -52,6 +52,7 @@ class _LoginViewState extends State<LoginView> {
             customTextField(
               controller: password,
               labelText: 'Password',
+              obscureText: true,
             ),
             space,
             ElevatedButton(
@@ -80,7 +81,10 @@ class _LoginViewState extends State<LoginView> {
                     MaterialPageRoute(builder: (_) => const RegisterView()),
                     (route) => false);
               },
-              child: const Text("Don't have an account yet? Register"),
+              child: const Text(
+                "Don't have an account yet? Register",
+                style: TextStyle(color: Color(0xff8d0000)),
+              ),
             )
           ],
         ),
