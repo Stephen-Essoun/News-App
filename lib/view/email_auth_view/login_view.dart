@@ -60,8 +60,8 @@ class _LoginViewState extends State<LoginView> {
                   setState(() {
                     isLoading = true;
                   });
-                  showDialog(
-                      context: context, builder: (_) => Center(child: spinkit));
+                  // showDialog(
+                  //     context: context, builder: (_) => Center(child: spinkit));
 
                   Future.delayed(
                     const Duration(seconds: 2),

@@ -57,7 +57,7 @@ class _RegisterViewState extends State<RegisterView> {
             space,
             ElevatedButton(
                 onPressed: () async {
-                  if (isLoading == false) {
+                  if (isLoading == true) {
                     showDialog(
                         context: context,
                         builder: (_) => Center(child: spinkit));
@@ -65,6 +65,9 @@ class _RegisterViewState extends State<RegisterView> {
                   Future.delayed(
                     const Duration(seconds: 2),
                     () {
+                      setState(() {
+                        isLoading = false;
+                      });
                       _auth.createUser(
                           email: email.text, password: password.text);
                     },

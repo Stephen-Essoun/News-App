@@ -1,4 +1,4 @@
-
+import 'package:all_news/const/constant.dart';
 import 'package:all_news/const/routes.dart';
 import 'package:all_news/utilities/fuctions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,7 +11,8 @@ class EmailAuth extends ChangeNotifier {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   User? get currentuser => _firebaseAuth.currentUser;
 
-  void createUser({required String email, required String password}) async {
+   createUser({required String email, required String password}) async {
+    // showDialog(context: context, builder: (ctx)=> Center(child: spinkit));
     try {
       await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password)
@@ -91,7 +92,8 @@ class EmailAuth extends ChangeNotifier {
     }
   }
 
-  void loginUser({required String email, required String password}) async {
+   loginUser({required String email, required String password}) async {
+    // showDialog(context: context, builder: (ctx) => Center(child: spinkit));
     try {
       await _firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password)
@@ -135,7 +137,8 @@ class EmailAuth extends ChangeNotifier {
     }
   }
 
-  void handleSignOut() async {
+   handleSignOut() async {
+    // showDialog(context: context, builder: (ctx) => Center(child: spinkit));
     await _firebaseAuth.signOut().then((value) => Navigator.of(context)
         .pushNamedAndRemoveUntil(signInRoute, (route) => false));
   }
@@ -145,7 +148,6 @@ class EmailAuth extends ChangeNotifier {
     try {
       await currentuser!.sendEmailVerification().then((value) {
         currentuser!.reload();
-        
       });
     } catch (e) {
       print(e);

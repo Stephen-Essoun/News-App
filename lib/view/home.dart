@@ -107,8 +107,9 @@ class _HomeState extends State<Home> {
             IconButton(
               onPressed: () {
                 showDialog(
-                    context: context, builder: (_) => Center(child: spinkit));
-
+                  context: context,
+                  builder: (_) => Center(child: spinkit),
+                );
                 Future.delayed(
                   const Duration(seconds: 2),
                   () {
