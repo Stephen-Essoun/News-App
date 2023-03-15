@@ -154,9 +154,23 @@ class _HomeState extends State<Home> {
           ),
           actions: [
             IconButton(
-              onPressed: () {
-                _auth.handleSignOut();
-              },
+              onPressed: () => showDialog(
+                  context: context,
+                  builder: (context) => SizedBox(
+                        height: 200,
+                        child: AlertDialog(
+                          alignment: Alignment.center,
+                          content: Text(
+                            'Logging out!',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          actions: [
+                            TextButton(
+                                onPressed: () => _auth.handleSignOut(),
+                                child: const Text('Ok'))
+                          ],
+                        ),
+                      )),
               icon: const Icon(Icons.logout),
             )
           ],
