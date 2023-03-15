@@ -61,8 +61,8 @@ class _RegisterViewState extends State<RegisterView> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     _auth.createUser(
-                      email: email.text,
-                      password: password.text,
+                      email: email.text.trim(),
+                      password: password.text.trim(),
                     );
                   }
                 },

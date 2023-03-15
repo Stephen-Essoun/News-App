@@ -62,8 +62,8 @@ class _LoginViewState extends State<LoginView> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _auth.loginUser(
-                      email: email.text,
-                      password: password.text,
+                      email: email.text.trim(),
+                      password: password.text.trim(),
                     );
                   }
                 },
