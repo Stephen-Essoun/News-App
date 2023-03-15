@@ -7,6 +7,7 @@ import 'package:all_news/view/email_auth_view/verify_view.dart';
 import 'package:all_news/view/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
@@ -18,6 +19,7 @@ void main() async {
   runApp(MultiProvider(
     providers: [ChangeNotifierProvider(create: (_) => EmailAuth())],
     builder: (context, child) => MaterialApp(
+      builder: EasyLoading.init(),
       home: const AuthState(),
       debugShowCheckedModeBanner: false,
       routes: {

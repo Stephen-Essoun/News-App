@@ -1,6 +1,5 @@
 import 'package:all_news/const/constant.dart';
 import 'package:all_news/service/auth/email_auth.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
@@ -20,13 +19,11 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool isSearchVisible = false;
-  Future<NewsApi>? newsData;
-  Network network = Network();
   @override
   void initState() {
     _auth.context = context;
 
-    newsData = network.getNews();
+    getNews();
     //////////////////////////////////////
     _networkConnectivity.initialise();
     _networkConnectivity.myStream.listen((source) {
@@ -86,7 +83,11 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return RefreshIndicator(
+      onRefresh: getNews,
+      backgroundColor: const Color(0xffffffff),
+      color: const Color(0xff8d0000),
+      child: Scaffold(
         backgroundColor: const Color.fromARGB(50, 141, 0, 0),
         appBar: AppBar(
           leading: Padding(
@@ -154,16 +155,7 @@ class _HomeState extends State<Home> {
           actions: [
             IconButton(
               onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (_) => Center(child: spinkit),
-                );
-                Future.delayed(
-                  const Duration(seconds: 2),
-                  () {
-                    _auth.handleSignOut();
-                  },
-                );
+                _auth.handleSignOut();
               },
               icon: const Icon(Icons.logout),
             )
@@ -173,24 +165,9 @@ class _HomeState extends State<Home> {
           child: Padding(
             padding: const EdgeInsets.only(top: 5, right: 10, left: 10),
             child: FutureBuilder<NewsApi>(
-                future: newsData,
+                future: getNews(),
                 builder: (context, AsyncSnapshot<NewsApi> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                        child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        spinkit,
-                        const Text(
-                          'fetching news',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ));
-                  } else if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
                     ///////////////
                     var dataAvailable = snapshot.data!.articles;
 
@@ -251,12 +228,30 @@ class _HomeState extends State<Home> {
                           return StaggeredTile.count(
                               1, index.isEven ? 1.6 : 1.4);
                         });
+                  } else if (snapshot.hasError) {
+                    return const Center(
+                      child:
+                          Text('Please check your network and restart the app'),
+                    );
                   }
-                  return const Center(
-                    child: Text("please check your internet connection"),
-                  );
+                  return Center(
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      spinkit,
+                      const Text(
+                        'fetching news',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ));
                 }),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

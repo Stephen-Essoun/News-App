@@ -31,10 +31,13 @@ class _LoginViewState extends State<LoginView> {
     super.dispose();
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Form(
+      key: _formKey,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -57,21 +60,12 @@ class _LoginViewState extends State<LoginView> {
             space,
             ElevatedButton(
                 onPressed: () {
-                  setState(() {
-                    isLoading = true;
-                  });
-                  // showDialog(
-                  //     context: context, builder: (_) => Center(child: spinkit));
-
-                  Future.delayed(
-                    const Duration(seconds: 2),
-                    () {
-                      _auth.loginUser(
-                        email: email.text,
-                        password: password.text,
-                      );
-                    },
-                  );
+                  if (_formKey.currentState!.validate()) {
+                    _auth.loginUser(
+                      email: email.text,
+                      password: password.text,
+                    );
+                  }
                 },
                 child: const Text('Login')),
             space,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Indicator {
@@ -15,4 +16,15 @@ class Indicator {
       ),
     );
   }
+}
+
+startLoading(String message) {
+  return EasyLoading.show(
+    status: message,
+    maskType: EasyLoadingMaskType.black,
+  );
+}
+
+stopLoading() {
+  return EasyLoading.dismiss();
 }

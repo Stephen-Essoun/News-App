@@ -32,10 +32,12 @@ class _RegisterViewState extends State<RegisterView> {
     super.dispose();
   }
 
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Form(
+      key: _formKey,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -57,21 +59,12 @@ class _RegisterViewState extends State<RegisterView> {
             space,
             ElevatedButton(
                 onPressed: () async {
-                  if (isLoading == true) {
-                    showDialog(
-                        context: context,
-                        builder: (_) => Center(child: spinkit));
+                  if (_formKey.currentState!.validate()) {
+                    _auth.createUser(
+                      email: email.text,
+                      password: password.text,
+                    );
                   }
-                  Future.delayed(
-                    const Duration(seconds: 2),
-                    () {
-                      setState(() {
-                        isLoading = false;
-                      });
-                      _auth.createUser(
-                          email: email.text, password: password.text);
-                    },
-                  );
                 },
                 child: const Text('Register')),
             space,

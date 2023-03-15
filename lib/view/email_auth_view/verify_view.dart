@@ -18,7 +18,7 @@ class EmailVerifyView extends StatelessWidget {
           ),
           ElevatedButton(
               onPressed: () {
-                context.read<EmailAuth>().verifyUser();
+                context.read<EmailAuth>().verifyUser(context);
                 context.read<EmailAuth>().currentuser!.reload().then((value) {
                   showDialog(
                       context: context,

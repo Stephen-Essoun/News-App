@@ -1,6 +1,7 @@
 import 'package:all_news/const/constant.dart';
 import 'package:all_news/const/routes.dart';
 import 'package:all_news/utilities/fuctions.dart';
+import 'package:all_news/utilities/progres_indicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer' as devprint show log;
 import 'package:flutter/material.dart';
@@ -11,14 +12,14 @@ class EmailAuth extends ChangeNotifier {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   User? get currentuser => _firebaseAuth.currentUser;
 
-   createUser({required String email, required String password}) async {
-    // showDialog(context: context, builder: (ctx)=> Center(child: spinkit));
+  createUser({required String email, required String password}) async {
     try {
+      startLoading('Authenticating');
       await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => Navigator.of(context)
-              .pushNamedAndRemoveUntil(emailVerifyRoute, (route) => false));
+          .then((value) => verifyUser(context));
     } on FirebaseAuthException catch (e) {
+      stopLoading();
       devprint.log(e.code);
       if (e.code == 'email-already-in-use') {
         devprint.log('Incorrect password');
@@ -92,14 +93,18 @@ class EmailAuth extends ChangeNotifier {
     }
   }
 
-   loginUser({required String email, required String password}) async {
-    // showDialog(context: context, builder: (ctx) => Center(child: spinkit));
+  loginUser({required String email, required String password}) async {
     try {
+      startLoading('authenticating');
       await _firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) => Navigator.of(context)
-              .pushNamedAndRemoveUntil(homeRoute, (route) => false));
+          .then((value) {
+        stopLoading();
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil(homeRoute, (route) => false);
+      });
     } on FirebaseAuthException catch (e) {
+      stopLoading();
       if (e.code == 'wrong-password') {
         devprint.log('Incorrect password');
         return dialogue(context,
@@ -137,20 +142,52 @@ class EmailAuth extends ChangeNotifier {
     }
   }
 
-   handleSignOut() async {
-    // showDialog(context: context, builder: (ctx) => Center(child: spinkit));
-    await _firebaseAuth.signOut().then((value) => Navigator.of(context)
-        .pushNamedAndRemoveUntil(signInRoute, (route) => false));
+  handleSignOut() async {
+    startLoading('signing out');
+    await _firebaseAuth.signOut().then((value) {
+      stopLoading();
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(signInRoute, (route) => false);
+    });
   }
 
-  void verifyUser() async {
-    // final user = _firebaseAuth.currentUser;
+  void verifyUser(BuildContext context) async {
     try {
+      startLoading('Verifying...');
+
       await currentuser!.sendEmailVerification().then((value) {
-        currentuser!.reload();
+        stopLoading();
+        showDialog(
+            context: context,
+            builder: (ctx) => const Center(
+                  child: Dialog(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: (Text(
+                        'Check your email to verify your account and login back.\nThanks!',
+                        style: TextStyle(fontSize: 18),
+                      )),
+                    ),
+                  ),
+                ));
+        Future.delayed(
+          const Duration(seconds: 5),
+          () => Navigator.pushNamed(context, signInRoute),
+        );
       });
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 }
+//   void verifyUser() async {
+//     // final user = _firebaseAuth.currentUser;
+//     try {
+//       await currentuser!.sendEmailVerification().then((value) {
+//         currentuser!.reload();
+//       });
+//     } catch (e) {
+//       print(e);
+//     }
+//   }
+// }
