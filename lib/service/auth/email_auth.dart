@@ -1,6 +1,6 @@
 import 'package:all_news/const/constant.dart';
 import 'package:all_news/const/routes.dart';
-import 'package:all_news/utilities/fuctions.dart';
+import 'package:all_news/utilities/dialog.dart';
 import 'package:all_news/utilities/progres_indicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer' as devprint show log;

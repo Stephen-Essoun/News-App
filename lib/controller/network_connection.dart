@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -16,7 +17,7 @@ class NetworkConnectivity {
     ConnectivityResult result = await _networkConnectivity.checkConnectivity();
     _checkStatus(result);
     _networkConnectivity.onConnectivityChanged.listen((result) {
-      print(result);
+      log('$result');
       _checkStatus(result);
     });
   }
@@ -34,4 +35,39 @@ class NetworkConnectivity {
   }
 
   void disposeStream() => _controller.close();
+
+
+  // 3
+  
 }
+
+
+// _networkConnectivity.myStream.listen((source) {
+//       _source = source;
+//       print('source $_source');
+//       // 1.
+//       switch (_source.keys.toList()[0]) {
+//         case ConnectivityResult.mobile:
+//           string =
+//               _source.values.toList()[0] ? 'Mobile: Online' : 'Mobile: Offline';
+//           break;
+//         case ConnectivityResult.wifi:
+//           string =
+//               _source.values.toList()[0] ? 'WiFi: Online' : 'WiFi: Offline';
+//           break;
+//         case ConnectivityResult.none:
+//         default:
+//           string = 'Offline';
+//       }
+//       // 2.
+//       setState(() {});
+//       // 3.
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(
+//           content: Text(
+//             string,
+//             style: const TextStyle(fontSize: 30),
+//           ),
+//         ),
+//       );
+//     });

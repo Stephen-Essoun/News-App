@@ -6,7 +6,7 @@ import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../controller/network.dart';
-import '../controller/network_connection.dart';
+import '../controller/share_link.dart';
 import '../model/api.dart';
 import 'news_in_detail.dart';
 
@@ -19,66 +19,23 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool isSearchVisible = false;
+
   @override
   void initState() {
     _auth.context = context;
-
     getNews();
-    //////////////////////////////////////
-    _networkConnectivity.initialise();
-    _networkConnectivity.myStream.listen((source) {
-      _source = source;
-      print('source $_source');
-      // 1.
-      switch (_source.keys.toList()[0]) {
-        case ConnectivityResult.mobile:
-          string =
-              _source.values.toList()[0] ? 'Mobile: Online' : 'Mobile: Offline';
-          break;
-        case ConnectivityResult.wifi:
-          string =
-              _source.values.toList()[0] ? 'WiFi: Online' : 'WiFi: Offline';
-          break;
-        case ConnectivityResult.none:
-        default:
-          string = 'Offline';
-      }
-      // 2.
-      setState(() {});
-      // 3.
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            string,
-            style: const TextStyle(fontSize: 30),
-          ),
-        ),
-      );
-    });
-    //////////////////////////////////////
     super.initState();
   }
 
-  final Uri url =
+  final Uri youTubeUrl =
       Uri.parse('https://www.youtube.com/channel/UC9QYHCZqkLK20QdBAe31EDQ');
   void _launchUrl() async {
-    if (!await launchUrl(url)) {
+    if (!await launchUrl(youTubeUrl)) {
       throw 'something happened\nTry again';
     }
   }
 
-  ////////////////////////////////////////////
-  Map _source = {ConnectivityResult.none: false};
-  final NetworkConnectivity _networkConnectivity = NetworkConnectivity.instance;
-  String string = '';
-  @override
-  void dispose() {
-    _networkConnectivity.disposeStream();
-    super.dispose();
-  }
-
-  ////////////////////////////////////////////
-
+//instance of EmailAuth class
   final EmailAuth _auth = EmailAuth();
 
   @override
@@ -155,21 +112,16 @@ class _HomeState extends State<Home> {
           actions: [
             IconButton(
               onPressed: () => showDialog(
+                  barrierDismissible: true,
                   context: context,
-                  builder: (context) => SizedBox(
-                        height: 200,
-                        child: AlertDialog(
-                          alignment: Alignment.center,
-                          content: Text(
-                            'Logging out!',
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          actions: [
-                            TextButton(
-                                onPressed: () => _auth.handleSignOut(),
-                                child: const Text('Ok'))
-                          ],
-                        ),
+                  builder: (_) => AlertDialog(
+                        title: const Text("Logging out?"),
+                        actions: [
+                          ElevatedButton.icon(
+                              onPressed: () => _auth.handleSignOut(),
+                              icon: const Icon(Icons.thumb_up_off_alt_rounded),
+                              label: const Text('Yes'))
+                        ],
                       )),
               icon: const Icon(Icons.logout),
             )
@@ -182,66 +134,23 @@ class _HomeState extends State<Home> {
                 future: getNews(),
                 builder: (context, AsyncSnapshot<NewsApi> snapshot) {
                   if (snapshot.hasData) {
-                    ///////////////
                     var dataAvailable = snapshot.data!.articles;
-
                     return StaggeredGridView.countBuilder(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 8,
-                        mainAxisSpacing: 10,
-                        itemCount: 10,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            child: Card(
-                              elevation: 10,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: const Color(0xff8d0000),
-                                  borderRadius: BorderRadius.circular(2),
-                                  image: DecorationImage(
-                                    fit: BoxFit.fitHeight,
-                                    image: NetworkImage(
-                                        dataAvailable![index].urlToImage!),
-                                  ),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Container(
-                                        decoration: BoxDecoration(
-                                            color: Colors.black.withOpacity(.5),
-                                            borderRadius:
-                                                const BorderRadius.vertical(
-                                                    top: Radius.circular(15))),
-                                        padding: const EdgeInsets.all(5),
-                                        height: 100,
-                                        child: Center(
-                                            child: Text(
-                                          snapshot
-                                              .data!.articles![index].title!,
-                                          style: const TextStyle(
-                                            fontSize: 15,
-                                            color: Colors.white,
-                                          ),
-                                        ))),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Detector(
-                                        detailed:
-                                            snapshot.data!.articles![index]))),
-                          );
-                        },
-                        staggeredTileBuilder: (index) {
-                          return StaggeredTile.count(
-                              1, index.isEven ? 1.6 : 1.4);
-                        });
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 8,
+                      mainAxisSpacing: 10,
+                      itemCount: 10,
+                      staggeredTileBuilder: (index) {
+                        return StaggeredTile.count(1, index.isEven ? 1.6 : 1.5);
+                      },
+                      itemBuilder: (context, index) {
+                        return NewsCard(
+                          dataAvailable: dataAvailable,
+                          index: index,
+                          snapshot: snapshot,
+                        );
+                      },
+                    );
                   } else if (snapshot.hasError) {
                     return const Center(
                       child:
@@ -263,6 +172,89 @@ class _HomeState extends State<Home> {
                     ],
                   ));
                 }),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class NewsCard extends StatefulWidget {
+  const NewsCard(
+      {Key? key,
+      required this.dataAvailable,
+      required this.index,
+      required this.snapshot})
+      : super(key: key);
+
+  final List<Article>? dataAvailable;
+  final int index;
+  final AsyncSnapshot snapshot;
+
+  @override
+  State<NewsCard> createState() => _NewsCardState();
+}
+
+class _NewsCardState extends State<NewsCard> {
+  bool isSelected = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Detector(
+                  detailed: widget.snapshot.data!.articles![widget.index]))),
+      onLongPress: () {
+        setState(() {
+          isSelected = true;
+        });
+      },
+      child: Card(
+        elevation: 10,
+        child: Container(
+          decoration: BoxDecoration(
+            color: const Color(0xff8d0000),
+            borderRadius: BorderRadius.circular(2),
+            image: DecorationImage(
+              fit: BoxFit.fitHeight,
+              image:
+                  NetworkImage(widget.dataAvailable![widget.index].urlToImage!),
+            ),
+          ),
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Visibility(
+                visible: isSelected,
+                child: Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                        onPressed: () {
+                          shareLink(widget.dataAvailable![widget.index].url);
+                        },
+                        icon: const Icon(
+                          Icons.share,
+                          color: Color(0xffffffff),
+                        ))),
+              ),
+              Container(
+                  decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(.5),
+                      borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(15))),
+                  padding: const EdgeInsets.all(5),
+                  height: 100,
+                  child: Center(
+                      child: Text(
+                    widget.snapshot.data!.articles![widget.index].title!,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      color: Colors.white,
+                    ),
+                  ))),
+            ],
           ),
         ),
       ),
