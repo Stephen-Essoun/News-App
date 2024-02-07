@@ -29,19 +29,20 @@ void main() async {
         emailVerifyRoute: (context) => const EmailVerifyView(),
       },
       theme: ThemeData(
-        errorColor: Colors.red,
         appBarTheme: const AppBarTheme(elevation: 0, color: Color(0xff8d0000)),
         hintColor: const Color(0xFFDAD7DF),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff8d0000)),
         textButtonTheme: TextButtonThemeData(
             style: ButtonStyle(
           textStyle: MaterialStateProperty.all(
-              TextStyle(decorationColor: Color(0xff8d0000))),
+              const TextStyle(decorationColor: Color(0xff8d0000))),
         )),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(
               const Color(0xff8d0000),
             ),
+            foregroundColor: MaterialStateProperty.all(Colors.white),
           ),
         ),
       ),

@@ -1,9 +1,10 @@
 import 'package:all_news/controller/share_link.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Detector extends StatefulWidget {
-  const Detector({Key? key, required this.detailed}) : super(key: key);
+  const Detector({super.key, required this.detailed});
   final dynamic detailed;
 
   @override
@@ -26,7 +27,7 @@ class _DetectorState extends State<Detector> {
             icon: const Icon(Icons.arrow_back_ios_new)),
         actions: [
           IconButton(
-              onPressed: () => shareLink(widget.detailed.youTubeUrl),
+              onPressed: () => shareLink(widget.detailed.url),
               icon: const Icon(Icons.share)),
         ],
       ),
@@ -53,26 +54,32 @@ class _DetectorState extends State<Detector> {
             const SizedBox(
               height: 10,
             ),
-            Column(
-              children: [
-                const Text('Find more detailed info here'),
-                InkWell(
-                  child: const Text('Click here',
-                      style: TextStyle(color: Colors.blue)),
-                  onTap: () {
-                    setState(() {
-                      urlLauncher();
-                    });
-                    //
-                  },
-                ),
-              ],
+            Center(
+              child: RichText(
+                text: TextSpan(
+                    text: 'Find more detailed info',
+                    style: const TextStyle(color: Colors.black),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        urlLauncher();
+                      },
+                    children: [
+                      TextSpan(
+                        text: ' here',
+                        style: const TextStyle(color: Colors.blue),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            urlLauncher();
+                          },
+                      )
+                    ]),
+              ),
             ),
             const SizedBox(
               height: 10,
             ),
             Center(
-                child: Text("Author:${widget.detailed.author}",
+                child: Text("Author: ${widget.detailed.author}",
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 15)))
           ],

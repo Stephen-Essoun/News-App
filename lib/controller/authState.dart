@@ -29,6 +29,6 @@ class _AuthStateState extends State<AuthState> {
         }
       }
       return const LoginView();
-    });
+    }, stream: null,);
   }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:all_news/const/constant.dart';
 import 'package:all_news/const/routes.dart';
 import 'package:all_news/utilities/dialog.dart';

@@ -181,11 +181,10 @@ class _HomeState extends State<Home> {
 
 class NewsCard extends StatefulWidget {
   const NewsCard(
-      {Key? key,
+      {super.key,
       required this.dataAvailable,
       required this.index,
-      required this.snapshot})
-      : super(key: key);
+      required this.snapshot});
 
   final List<Article>? dataAvailable;
   final int index;
@@ -215,8 +214,8 @@ class _NewsCardState extends State<NewsCard> {
         elevation: 10,
         child: Container(
           decoration: BoxDecoration(
-            color: const Color(0xff8d0000),
-            borderRadius: BorderRadius.circular(2),
+            color: const Color(0xFFBBAFAF),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
             image: DecorationImage(
               fit: BoxFit.fitHeight,
               image:
